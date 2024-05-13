@@ -16,7 +16,6 @@ const ClientManagementInfo = () => {
     }
   }, [dispatch, id]);
 
-  console.log(client);
 
   return (
     <VStack spacing="6" align="stretch" p="4">

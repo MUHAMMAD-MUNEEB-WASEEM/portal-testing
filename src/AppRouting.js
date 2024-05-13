@@ -21,6 +21,7 @@ import InvoiceComponent from './pages/Dashboard/Invoices/index.jsx';
 import InvoiceForm from './pages/Dashboard/Invoices/InvoiceForm.jsx';
 import InvoiceInfo from './pages/Dashboard/Invoices/InvoiceInfo.jsx';
 import BrandForm from './pages/Dashboard/BrandManagement/BrandForm.jsx';
+import BrandInfo from './pages/Dashboard/BrandManagement/BrandInfo.jsx';
 
 const DashboardLayout = React.lazy(() => import('./Layouts/DashboardLayout.js'));
 const Targets = React.lazy(() => import('./pages/Dashboard/MonetaryManagement/Targets'));
@@ -120,6 +121,7 @@ const AppRouting = () => {
         <Route path="invoice-managment/add" element={<InvoiceManagementForm />} />
         <Route path="invoice-managment/update/:id" element={<InvoiceManagementForm />} />
         <Route path="brand-managment" element={<BrandManagement />} />
+        <Route path="brand-managment/:id" element={<BrandInfo />} />
         <Route path="brand-managment/add" element={<BrandForm />} />
         <Route path="brand-managment/update/:id" element={<BrandForm />} />
         <Route path="user-managment" element={<UsersManagment />} />
