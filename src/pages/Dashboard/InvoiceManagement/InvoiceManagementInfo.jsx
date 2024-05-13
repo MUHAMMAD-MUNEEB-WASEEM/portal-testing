@@ -1,12 +1,11 @@
+import { Box, Button, Flex, Heading, Image, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Flex, Grid, GridItem, Heading, Image, Text, VStack } from '@chakra-ui/react';
-import DashboardHeading from '../../../components/DashboardHeading';
-import { getOneInvoice, getOneInvoiceAdmin, sendInvoice } from '../../../redux/invoiceSlice';
 import { useReactToPrint } from 'react-to-print';
+import DashboardHeading from '../../../components/DashboardHeading';
 import useToast from '../../../hooks/useToast';
-import { getCurrentDate } from '../../../utils/helpers';
+import { getOneInvoiceAdmin, sendInvoice } from '../../../redux/invoiceSlice';
 
 const InvoiceInfo = () => {
   const { id } = useParams();
@@ -16,7 +15,6 @@ const InvoiceInfo = () => {
   const componentRef = useRef();
   const { showErrorToast, showSuccessToast } = useToast();
   const [isDateGreaterThanTarget, setIsDateGreaterThanTarget] = useState(false);
-
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -49,15 +47,13 @@ const InvoiceInfo = () => {
   };
 
   useEffect(() => {
-    if (invoice?.invoiceDueDate){
-
+    if (invoice?.invoiceDueDate) {
       const targetDate = new Date(invoice?.invoiceDueDate);
       const currentDate = new Date();
-      
+
       setIsDateGreaterThanTarget(currentDate > targetDate);
     }
   }, [invoice?.invoiceDueDate]);
-
 
   return (
     <VStack spacing="6" align="stretch" p="4">
@@ -93,7 +89,29 @@ const InvoiceInfo = () => {
         px={4}
       >
         <Box color={'black'} as="div" zIndex={10}>
-          <Box as='div' height={'3'} maxWidth={'900'} bg={invoice?.status == "paid" ? 'green' : (invoice?.status == "unpaid" && isDateGreaterThanTarget) ? 'yellow' : invoice?.status == "unpaid" && 'red'} mb={4}/>
+          <Box
+            as="div"
+            style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+            height={'8'}
+            maxWidth={'900'}
+            bg={
+              invoice?.status == 'paid'
+                ? 'green'
+                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                  ? '#FDAE49'
+                  : invoice?.status == 'unpaid' && 'red'
+            }
+            mb={4}
+            px={4}
+          >
+            <Heading as={'h4'} fontSize={'18'} style={{ color: '#000', textAlign: 'center' }}>
+              {invoice?.status == 'paid'
+                ? 'Paid'
+                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                  ? 'Due'
+                  : invoice?.status == 'unpaid' && 'Unpaid'}
+            </Heading>
+          </Box>
           <Flex justifyContent={'space-between'}>
             <VStack spacing={6} flex={'0.5'} align={'self-start'}>
               <Image width={'200px'} objectFit={'contain'} src={invoice?.logo} />
