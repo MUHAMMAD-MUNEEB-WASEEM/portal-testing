@@ -31,6 +31,7 @@ import {
   updateInvoice,
 } from '../../../redux/invoiceSlice';
 import CONSTANTS from '../../../utils/constants';
+import { getUserClients } from '../../../redux/clientSlice';
 
 const InvoiceComponent = () => {
   const navigate = useNavigate();
@@ -51,6 +52,13 @@ const InvoiceComponent = () => {
     search: '',
   });
 
+  const [filters1, setFilters1] = useState({
+    page: 1,
+    sort: '',
+    limit: 10000000000000000000,
+    search: '',
+  });
+
   const handleSearch = (event) => {
     if (event.key === 'Enter' || event.key === 'Backspace') {
       setFilters({ ...filters, search: searchInput });
@@ -65,6 +73,7 @@ const InvoiceComponent = () => {
     dispatch(getUserInvoices(filters));
     dispatch(setSingleInvoiceNull());
   }, [dispatch, filters]);
+
 
   const refresh = () => {
     dispatch(getUserInvoices(filters));
@@ -184,7 +193,7 @@ const InvoiceComponent = () => {
                   <Td>
                     <HStack gap={2}>
                       {isReadAllowed && <View onClick={() => navigate(`${e._id}`)} size={18} />}
-                      {/* {isUpdateAllowed && (
+                      {isUpdateAllowed && (
                         <Edit
                           // onClick={() => {
                           //   navigate(`update/${e._id}`);
@@ -192,7 +201,7 @@ const InvoiceComponent = () => {
                           onClick={() => handleEditmodal(e)}
                           size={18}
                         />
-                      )} */}
+                      )}
                       {isDeleteAllowed && (
                         <Trash2 size={18} onClick={() => handleDeleteModal(e._id)} />
                       )}

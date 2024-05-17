@@ -20,6 +20,7 @@ const ClientInvoice = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice.singleInvoice);
+  const [isDateGreaterThanTarget, setIsDateGreaterThanTarget] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -44,6 +45,15 @@ const ClientInvoice = () => {
     }
   }, [invoice]);
 
+  useEffect(() => {
+    if (invoice?.invoiceDueDate) {
+      const targetDate = new Date(invoice?.invoiceDueDate);
+      const currentDate = new Date();
+
+      setIsDateGreaterThanTarget(currentDate > targetDate);
+    }
+  }, [invoice?.invoiceDueDate]);
+
   return (
     <Box as="div" my={20}>
       {!!invoice && (
@@ -62,6 +72,29 @@ const ClientInvoice = () => {
           px={4}
         >
           <Box color={'black'} as="div" zIndex={10}>
+          <Box
+            as="div"
+            style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+            height={'8'}
+            maxWidth={'900'}
+            bg={
+              invoice?.status == 'paid'
+                ? 'green'
+                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                  ? '#FDAE49'
+                  : invoice?.status == 'unpaid' && 'red'
+            }
+            mb={4}
+            px={4}
+          >
+            <Heading as={'h4'} fontSize={'18'} style={{ color: '#000', textAlign: 'center' }}>
+              {invoice?.status == 'paid'
+                ? 'Paid'
+                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                  ? 'Due'
+                  : invoice?.status == 'unpaid' && 'Unpaid'}
+            </Heading>
+          </Box>
             <Flex justifyContent={'space-between'}>
               <VStack spacing={6} flex={'0.5'} align={'self-start'}>
                 <Image width={'200px'} objectFit={'contain'} src={invoice?.logo} />

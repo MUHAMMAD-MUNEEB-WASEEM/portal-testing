@@ -44,6 +44,13 @@ const ClientsComponent = () => {
     search: '',
   });
 
+  const [filters1, setFilters1] = useState({
+    page: 1,
+    sort: '',
+    limit: 1000000,
+    search: '',
+  });
+
   const handleSearch = (event) => {
     if (event.key === 'Enter' || event.key === 'Backspace') {
       setFilters({ ...filters, search: searchInput });

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Flex, Grid, GridItem, Heading, Image, Text, VStack } from '@chakra-ui/react';
@@ -14,6 +14,7 @@ const InvoiceInfo = () => {
   const invoice = useSelector((state) => state.invoice.singleInvoice);
   const componentRef = useRef();
   const { showErrorToast, showSuccessToast } = useToast();
+  const [isDateGreaterThanTarget, setIsDateGreaterThanTarget] = useState(false);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -45,6 +46,14 @@ const InvoiceInfo = () => {
       });
   };
 
+  useEffect(() => {
+    if (invoice?.invoiceDueDate) {
+      const targetDate = new Date(invoice?.invoiceDueDate);
+      const currentDate = new Date();
+
+      setIsDateGreaterThanTarget(currentDate > targetDate);
+    }
+  }, [invoice?.invoiceDueDate]);
   return (
     <VStack spacing="6" align="stretch" p="4">
       <Flex mb={6} justifyContent="space-between" alignItems="end">
@@ -79,7 +88,31 @@ const InvoiceInfo = () => {
           pb={5}
           px={4}
         >
+          
           <Box color={'black'} as="div" zIndex={10}>
+          <Box
+            as="div"
+            style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+            height={'8'}
+            maxWidth={'900'}
+            bg={
+              invoice?.status == 'paid'
+                ? 'green'
+                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                  ? '#FDAE49'
+                  : invoice?.status == 'unpaid' && 'red'
+            }
+            mb={4}
+            px={4}
+          >
+            <Heading as={'h4'} fontSize={'18'} style={{ color: '#000', textAlign: 'center' }}>
+              {invoice?.status == 'paid'
+                ? 'Paid'
+                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                  ? 'Due'
+                  : invoice?.status == 'unpaid' && 'Unpaid'}
+            </Heading>
+          </Box>
             <Flex justifyContent={'space-between'}>
               <VStack spacing={6} flex={'0.5'} align={'self-start'}>
                 <Image width={'200px'} objectFit={'contain'} src={invoice?.logo} />

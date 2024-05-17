@@ -34,9 +34,14 @@ const InvoiceForm = () => {
   const dispatch = useDispatch();
 
   const client = useSelector((state) => state.client.singleClient);
-
+  const [filters1, setFilters1] = useState({
+    page: 1,
+    sort: '',
+    limit: 10000000000000000000,
+    search: '',
+  });
   useEffect(() => {
-    dispatch(getUserClients());
+    dispatch(getUserClients(filters1));
     dispatch(setSingleClientNull());
   }, [dispatch]);
 
