@@ -31,11 +31,16 @@ const InvoiceForm = () => {
   const [selectedClient, setSelectedClient] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [filters1, setFilters1] = useState({
+    page: 1,
+    sort: '',
+    limit: 10000000000000000000,
+    search: '',
+  });
   const client = useSelector((state) => state.client.singleClient);
 
   useEffect(() => {
-    dispatch(getAllClients());
+    dispatch(getUserClients(filters1));
     dispatch(setSingleClientNull());
   }, [dispatch]);
 
