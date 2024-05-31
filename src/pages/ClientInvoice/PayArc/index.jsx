@@ -55,7 +55,7 @@ const PayArc = ({ invoiceData }) => {
 
       setLoading(true);
 
-      const {data: card} = await api.post('/api/v1/payments/payarc/card-payments', paylaod);
+      await api.post('/api/v1/payments/payarc/card-payments', paylaod);
 
       const { data } = await api.post('/api/v1/payments/payarc/create-charge', paylaod);
       if (data) {
