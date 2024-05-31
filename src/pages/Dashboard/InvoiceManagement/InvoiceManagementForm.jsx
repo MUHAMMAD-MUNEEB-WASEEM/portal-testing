@@ -16,7 +16,7 @@ import {
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import useToast from '../../../hooks/useToast';
-import { setSingleClientNull, getAllClients, getOneClientAdmin } from '../../../redux/clientSlice';
+import { setSingleClientNull, getAllClients, getOneClientAdmin, getUserClients } from '../../../redux/clientSlice';
 import { addInvoiceAdmin } from '../../../redux/invoiceSlice';
 import { initialInvoice, initialProductLine } from '../../../utils/invoice/initialData';
 import EditableInput from '../../../components/Invoice/EditableInput';
