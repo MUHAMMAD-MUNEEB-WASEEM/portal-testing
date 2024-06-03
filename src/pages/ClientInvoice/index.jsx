@@ -21,6 +21,24 @@ const ClientInvoice = () => {
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice.singleInvoice);
   const [isDateGreaterThanTarget, setIsDateGreaterThanTarget] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  useEffect(() => {
+    const fetchGeolocationData = async () => {
+      try {
+        const response = await axios.get(`https://ipinfo.io/json?token=de16debdbfca16`);
+        const data = response.data;
+
+        if (data.country === 'PK') {
+          setIsBlocked(true);
+        }
+      } catch (error) {
+        console.error('Error fetching geolocation data:', error);
+      }
+    };
+
+    fetchGeolocationData();
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -53,6 +71,11 @@ const ClientInvoice = () => {
       setIsDateGreaterThanTarget(currentDate > targetDate);
     }
   }, [invoice?.invoiceDueDate]);
+
+  if (isBlocked) {
+    return <div>Access denied</div>;
+  }
+
 
   return (
     <Box as="div" my={20}>
