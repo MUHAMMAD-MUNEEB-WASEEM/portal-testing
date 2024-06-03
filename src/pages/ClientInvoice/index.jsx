@@ -14,6 +14,7 @@ import Sumup from './Sumup';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOneInvoice } from '../../redux/invoiceSlice';
 import { Box, Flex, Heading, Image, Text, VStack, useColorMode } from '@chakra-ui/react';
+import axios from 'axios';
 
 const ClientInvoice = () => {
   const { id } = useParams();
