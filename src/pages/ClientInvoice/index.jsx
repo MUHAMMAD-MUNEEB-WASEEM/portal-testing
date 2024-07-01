@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOneInvoice } from '../../redux/invoiceSlice';
 import { Box, Flex, Heading, Image, Text, VStack, useColorMode } from '@chakra-ui/react';
 import axios from 'axios';
+import Authorize from './Authorize';
 
 const ClientInvoice = () => {
   const { id } = useParams();
@@ -27,12 +28,11 @@ const ClientInvoice = () => {
   useEffect(() => {
     const fetchGeolocationData = async () => {
       try {
-        const response = await axios.get(`https://ipinfo.io/json?token=de16debdbfca16`);
-        const data = response.data;
-
-        if (data.country === 'PK') {
-          setIsBlocked(true);
-        }
+        // const response = await axios.get(`https://ipinfo.io/json?token=de16debdbfca16`);
+        // const data = response.data;
+        // if (data.country === 'PK') {
+        //   setIsBlocked(true);
+        // }
       } catch (error) {
         console.error('Error fetching geolocation data:', error);
       }
@@ -77,7 +77,6 @@ const ClientInvoice = () => {
     return <div>Access denied</div>;
   }
 
-
   return (
     <Box as="div" my={20}>
       {!!invoice && (
@@ -96,29 +95,29 @@ const ClientInvoice = () => {
           px={4}
         >
           <Box color={'black'} as="div" zIndex={10}>
-          <Box
-            as="div"
-            style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
-            height={'8'}
-            maxWidth={'900'}
-            bg={
-              invoice?.status == 'paid'
-                ? 'green'
-                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
-                  ? '#FDAE49'
-                  : invoice?.status == 'unpaid' && 'red'
-            }
-            mb={4}
-            px={4}
-          >
-            <Heading as={'h4'} fontSize={'18'} style={{ color: '#000', textAlign: 'center' }}>
-              {invoice?.status == 'paid'
-                ? 'Paid'
-                : invoice?.status == 'unpaid' && isDateGreaterThanTarget
-                  ? 'Due'
-                  : invoice?.status == 'unpaid' && 'Unpaid'}
-            </Heading>
-          </Box>
+            <Box
+              as="div"
+              style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+              height={'8'}
+              maxWidth={'900'}
+              bg={
+                invoice?.status == 'paid'
+                  ? 'green'
+                  : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                    ? '#FDAE49'
+                    : invoice?.status == 'unpaid' && 'red'
+              }
+              mb={4}
+              px={4}
+            >
+              <Heading as={'h4'} fontSize={'18'} style={{ color: '#000', textAlign: 'center' }}>
+                {invoice?.status == 'paid'
+                  ? 'Paid'
+                  : invoice?.status == 'unpaid' && isDateGreaterThanTarget
+                    ? 'Due'
+                    : invoice?.status == 'unpaid' && 'Unpaid'}
+              </Heading>
+            </Box>
             <Flex justifyContent={'space-between'}>
               <VStack spacing={6} flex={'0.5'} align={'self-start'}>
                 <Image width={'200px'} objectFit={'contain'} src={invoice?.logo} />
@@ -270,7 +269,11 @@ const ClientInvoice = () => {
       )}
 
       <Flex justifyContent={'center'} my={20}>
-        {invoice?.merchant === 'Stripe 1' && <PayArc invoiceData={invoice} />}
+        {invoice?.merchant === 'Stripe 1' ? (
+          <PayArc invoiceData={invoice} />
+        ) : (
+          invoice?.merchant === 'Merchant 2' && <Authorize invoiceData={invoice} />
+        )}
       </Flex>
       <Flex justifyContent={'center'} my={20}>
         {invoice?.merchant === 'Paypal Finitive' && <PaypalFinitive invoice={invoice} />}
