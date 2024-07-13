@@ -18,7 +18,7 @@ const Authorize = ({ invoiceData }) => {
   const [zip, setZip] = useState(invoiceData?.clientZip || '');
   const [phone, setPhone] = useState(invoiceData?.clientPhone || '');
 
-  const [cardNumber, setCardNumber] = useState('');
+  const [cardNumber, setCardNumber] = useState();
   const [expiry, setExpiry] = useState('');
   const [cvc, setCvc] = useState('');
   const [amount, setAmount] = useState(invoiceData?.totalDue || '');
@@ -44,7 +44,7 @@ const Authorize = ({ invoiceData }) => {
     try {
       const response = await api.post('/api/v1/payments/authorizeNet/create-charge', {
         cardDetails: {
-          number: cardNumber,
+          number: Number(cardNumber),
           expiry: expiry.replace(' / ', ''),
           cvc: cvc,
           currencyCode: 'USD',
