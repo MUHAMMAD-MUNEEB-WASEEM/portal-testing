@@ -35,7 +35,7 @@ const Authorize = ({ invoiceData }) => {
     //   showErrorToast('All fields are required');
     //   return;
     // }
-    if (!cardNumber || !expiry || !cvc) {
+    if (!cardNumber && !expiry && !cvc) {
       setError('Card details are missing');
       return;
     }
@@ -44,7 +44,7 @@ const Authorize = ({ invoiceData }) => {
     try {
       const response = await api.post('/api/v1/payments/authorizeNet/create-charge', {
         cardDetails: {
-          number: Number(cardNumber),
+          number: cardNumber.replaceAll(' ', ''),
           expiry: expiry.replace(' / ', ''),
           cvc: cvc,
           currencyCode: 'USD',
