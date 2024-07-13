@@ -183,10 +183,10 @@ const Authorize = ({ invoiceData }) => {
           isLoading={loading}
           bg={'#808080'}
           color={'#000'}
-          disabled={!cardNumber || !expiry || !cvc}
+          disabled={!cardNumber || !expiry || !cvc || invoiceData?.status === 'paid'}
           onClick={handleSubmit}
         >
-          Pay Now
+          {invoiceData?.status === 'paid' ? 'Invoice Paid' : 'Pay Now'}
         </Button>
       </Flex>
     </Flex>
