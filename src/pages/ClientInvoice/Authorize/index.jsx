@@ -23,6 +23,7 @@ const Authorize = ({ invoiceData }) => {
   const [cvc, setCvc] = useState('');
   const [amount, setAmount] = useState(invoiceData?.totalDue || '');
   const [loading, setLoading] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState(false);
   const [error, setError] = useState('');
 
   const handleCardExpiryChange = (e) => {
@@ -183,7 +184,7 @@ const Authorize = ({ invoiceData }) => {
           isLoading={loading}
           bg={'#808080'}
           color={'#000'}
-          disabled={!cardNumber || !expiry || !cvc || invoiceData?.status === 'paid'}
+          _disabled={(!cardNumber && !expiry && !cvc) || invoiceData?.status === 'paid'}
           onClick={handleSubmit}
         >
           {invoiceData?.status === 'paid' ? 'Invoice Paid' : 'Pay Now'}
