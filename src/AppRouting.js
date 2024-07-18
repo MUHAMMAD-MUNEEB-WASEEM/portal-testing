@@ -149,7 +149,7 @@ const AppRouting = () => {
       </Route>
 
       <Route path="/invoice/payment-link/:id" element={<ClientInvoice />} />
-      <Route path="/payment_success" element={<Thankyou />} />
+      <Route path="/invoice/payment-link/:id/payment_success" element={<Thankyou />} />
       <Route path="/payment_cancel" element={<PaymentCancel />} />
 
       <Route

@@ -5,10 +5,12 @@ import useToast from '../../../hooks/useToast';
 import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { updateInvoice } from '../../../redux/invoiceSlice';
+import { useNavigate } from 'react-router-dom';
 
 const PayArc = ({ invoiceData }) => {
   const { showSuccessToast, showErrorToast } = useToast();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [address_line1, setAddress_line1] = useState('');
@@ -65,8 +67,8 @@ const PayArc = ({ invoiceData }) => {
             showSuccessToast('Invoice Paid Succesfully.');
             setLoading(false);
             setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+              navigate('payment_success');
+            }, 1000);
           })
           .catch((error) => {
             console.error('Error:', error);

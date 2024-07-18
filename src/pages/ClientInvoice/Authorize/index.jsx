@@ -6,10 +6,12 @@ import { useDispatch } from 'react-redux';
 import { updateInvoice } from '../../../redux/invoiceSlice';
 import useToast from '../../../hooks/useToast';
 import { api } from '../../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const Authorize = ({ invoiceData }) => {
   const { showSuccessToast, showErrorToast } = useToast();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState(invoiceData?.clientName || '');
   const [addressLine1, setAddressLine1] = useState(invoiceData?.clientAddress || '');
@@ -57,9 +59,11 @@ const Authorize = ({ invoiceData }) => {
         await dispatch(updateInvoice({ id: invoiceData._id, payload: { status: 'paid' } }));
         // showSuccessToast('Payment successful! Transaction ID: ' + response.data.transactionId);
         showSuccessToast('Invoice Paid Succesfully.');
+        setLoading(false);
+
         setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+          navigate('payment_success');
+        }, 1000);
       } else {
         setError(response.data.error || 'Payment failed');
       }
