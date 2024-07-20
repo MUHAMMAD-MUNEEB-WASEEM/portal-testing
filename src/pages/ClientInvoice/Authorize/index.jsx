@@ -50,6 +50,7 @@ const Authorize = ({ invoiceData }) => {
           name: name,
           addressLine1: addressLine1,
           zip: zip,
+          phoneNumber: phone,
           number: cardNumber.replaceAll(' ', ''),
           expiry: expiry.replace(' / ', ''),
           cvc: cvc,
@@ -150,7 +151,7 @@ const Authorize = ({ invoiceData }) => {
           onChange={(e) => setZip(e.target.value)}
         />
       </Box>
-      {/* <Box color={'#808080'} my={2} mx={0}>
+      <Box color={'#808080'} my={2} mx={0}>
         <Input
           w={'100%'}
           color={'#000'}
@@ -161,7 +162,7 @@ const Authorize = ({ invoiceData }) => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
-      </Box> */}
+      </Box>
       <Box my={2} border={'2px solid #808080'}>
         <CreditCardInput
           cardNumberInputProps={{
