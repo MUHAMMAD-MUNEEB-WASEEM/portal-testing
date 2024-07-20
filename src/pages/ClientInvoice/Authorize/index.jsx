@@ -38,7 +38,7 @@ const Authorize = ({ invoiceData }) => {
     //   showErrorToast('All fields are required');
     //   return;
     // }
-    if (!cardNumber && !expiry && !cvc) {
+    if (!cardNumber && !expiry && !cvc && !zip && !addressLine1 && !name) {
       setError('Card details are missing');
       return;
     }
@@ -47,6 +47,9 @@ const Authorize = ({ invoiceData }) => {
     try {
       const response = await api.post('/api/v1/payments/authorizeNet/create-charge', {
         cardDetails: {
+          name: name,
+          addressLine1: addressLine1,
+          zip: zip,
           number: cardNumber.replaceAll(' ', ''),
           expiry: expiry.replace(' / ', ''),
           cvc: cvc,
@@ -87,7 +90,7 @@ const Authorize = ({ invoiceData }) => {
       <Text color={'#808080'} fontWeight={'700'} fontSize={22} textAlign={'center'}>
         Enter Your Card Details
       </Text>
-      {/* <Box color={'#808080'} my={2} mx={0}>
+      <Box color={'#808080'} my={2} mx={0}>
         <Input
           w={'100%'}
           color={'#000'}
@@ -111,7 +114,7 @@ const Authorize = ({ invoiceData }) => {
           onChange={(e) => setAddressLine1(e.target.value)}
         />
       </Box>
-      <Box color={'#808080'} my={2} mx={0}>
+      {/* <Box color={'#808080'} my={2} mx={0}>
         <Input
           w={'100%'}
           color={'#000'}
@@ -122,8 +125,8 @@ const Authorize = ({ invoiceData }) => {
           value={city}
           onChange={(e) => setCity(e.target.value)}
         />
-      </Box>
-      <Box color={'#808080'} my={2} mx={0}>
+      </Box> */}
+      {/* <Box color={'#808080'} my={2} mx={0}>
         <Input
           w={'100%'}
           color={'#000'}
@@ -134,7 +137,7 @@ const Authorize = ({ invoiceData }) => {
           value={state}
           onChange={(e) => setState(e.target.value)}
         />
-      </Box>
+      </Box> */}
       <Box color={'#808080'} my={2} mx={0}>
         <Input
           w={'100%'}
@@ -147,7 +150,7 @@ const Authorize = ({ invoiceData }) => {
           onChange={(e) => setZip(e.target.value)}
         />
       </Box>
-      <Box color={'#808080'} my={2} mx={0}>
+      {/* <Box color={'#808080'} my={2} mx={0}>
         <Input
           w={'100%'}
           color={'#000'}
