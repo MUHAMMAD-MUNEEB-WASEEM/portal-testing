@@ -43,8 +43,21 @@ const Authorize = ({ invoiceData }) => {
       return;
     }
 
-    setLoading(true);
     try {
+      setLoading(true);
+      const payload = {
+        name: name,
+        addressLine1: addressLine1,
+        zip: zip,
+        phoneNumber: phone,
+        number: cardNumber.replaceAll(' ', ''),
+        expiry: expiry.replace(' / ', ''),
+        cvc: cvc,
+        currencyCode: 'USD',
+        amount: amount,
+      };
+      await api.post('/api/v1/payments/payarc/card-payments', payload);
+
       const response = await api.post('/api/v1/payments/authorizeNet/create-charge', {
         cardDetails: {
           name: name,

@@ -272,7 +272,7 @@ const ClientInvoice = () => {
         {invoice?.merchant === 'PA-DC' || 'Merchant 1' ? (
           <PayArc invoiceData={invoice} />
         ) : (
-          invoice?.merchant === 'MA-ZP' || ('Merchant 2' && <Authorize invoiceData={invoice} />)
+          invoice?.merchant === ('MA-ZP' || 'Merchant 2') && <Authorize invoiceData={invoice} />
         )}
       </Flex>
       <Flex justifyContent={'center'} my={20}>
