@@ -59,7 +59,7 @@ const Authorize = ({ invoiceData }) => {
         amount: amount,
       });
 
-      if (response.data.success) {
+      if (response?.data?.success) {
         await dispatch(updateInvoice({ id: invoiceData._id, payload: { status: 'paid' } }));
         // showSuccessToast('Payment successful! Transaction ID: ' + response.data.transactionId);
         showSuccessToast('Invoice Paid Succesfully.');
