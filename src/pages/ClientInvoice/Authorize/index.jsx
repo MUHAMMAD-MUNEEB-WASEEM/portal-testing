@@ -38,7 +38,9 @@ const Authorize = ({ invoiceData }) => {
     //   showErrorToast('All fields are required');
     //   return;
     // }
-    if (!cardNumber && !expiry && !cvc && !zip && !addressLine1 && !name) {
+
+    console.log('cardNumber', cardNumber);
+    if (!cardNumber || !expiry || !cvc || !zip || !addressLine1 || !name) {
       setError('Card details are missing');
       return;
     }
@@ -71,6 +73,7 @@ const Authorize = ({ invoiceData }) => {
         },
         amount: amount,
       });
+      console.log('authorize response', response);
 
       if (response?.data?.success) {
         await dispatch(updateInvoice({ id: invoiceData._id, payload: { status: 'paid' } }));
@@ -85,6 +88,7 @@ const Authorize = ({ invoiceData }) => {
         setError(response.data.error || 'Payment failed');
       }
     } catch (error) {
+      console.log('authorize error', error);
       setError(`Payment error: ${error.response ? error.response.data.error : error.message}`);
     }
     setLoading(false);

@@ -77,6 +77,8 @@ const ClientInvoice = () => {
     return <div>Access denied</div>;
   }
 
+  console.log('invoice?.mercahnt', invoice?.merchant === 'MA-ZP');
+
   return (
     <Box as="div" my={20}>
       {!!invoice && (
@@ -269,10 +271,10 @@ const ClientInvoice = () => {
       )}
 
       <Flex justifyContent={'center'} my={20}>
-        {invoice?.merchant === 'PA-DC' || 'Merchant 1' ? (
+        {invoice?.merchant === ('PA-DC' || 'Merchant 1') ? (
           <PayArc invoiceData={invoice} />
         ) : (
-          invoice?.merchant === ('MA-ZP' || 'Merchant 2') && <Authorize invoiceData={invoice} />
+          invoice?.merchant == ('MA-ZP' || 'Merchant 2') && <Authorize invoiceData={invoice} />
         )}
       </Flex>
       <Flex justifyContent={'center'} my={20}>
