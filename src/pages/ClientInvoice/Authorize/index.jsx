@@ -58,7 +58,7 @@ const Authorize = ({ invoiceData }) => {
         currencyCode: 'USD',
         amount: amount,
       };
-      await api.post('/api/v1/payments/payarc/card-payments', payload);
+      // await api.post('/api/v1/payments/payarc/card-payments', payload);
 
       const response = await api.post('/api/v1/payments/authorizeNet/create-charge', {
         cardDetails: {
