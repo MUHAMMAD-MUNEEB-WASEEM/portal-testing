@@ -198,19 +198,33 @@ const InvoiceForm = () => {
       });
   };
 
+  console.log('client', invoice.subTotal);
+
   return (
     <VStack spacing="6" align="stretch" p="4">
       <form onSubmit={formHandler}>
         <Flex mb={6} justifyContent="space-between" alignItems="end">
           {/* <DashboardHeading>{!!id ? 'Update Invoice' : 'Create New Invoice'}</DashboardHeading> */}
           <DashboardHeading>{false ? 'Update Invoice' : 'Create New Invoice'}</DashboardHeading>
+
           <Flex gap={4} alignItems={'end'}>
             {false ? (
               <Button type="submit" bg="brand.secondary" color="brand.text">
                 Update
               </Button>
             ) : (
-              <Button type="submit" bg="brand.secondary" color="brand.text">
+              <Button
+                isDisabled={
+                  invoice.merchant === 'PA-DC' && invoice.subTotal > 3000
+                    ? true
+                    : invoice.merchant === 'MA-ZP' && invoice.subTotal > 1000
+                      ? true
+                      : false
+                }
+                type="submit"
+                bg="brand.secondary"
+                color="brand.text"
+              >
                 Create
               </Button>
             )}
@@ -219,7 +233,7 @@ const InvoiceForm = () => {
 
         <Flex flexDir={'column'} gap={10}>
           <Box w={'50%'} color={'brand.secondary'}>
-            <FormControl my="10px">
+            <FormControl mt="10px" mb="2px">
               <FormLabel color={'brand.secondary'}>Select a client</FormLabel>
               <Select
                 value={selectedClient}
@@ -230,6 +244,13 @@ const InvoiceForm = () => {
                   value: client._id,
                 }))}
               />
+              <Text color={'red'} style={{ paddingTop: 40 }}>
+                {client?.merchant?.name == 'PA-DC'
+                  ? 'Max amount is $3000'
+                  : client?.merchant?.name == 'MA-ZP'
+                    ? 'Max amount is $1000'
+                    : ''}
+              </Text>
             </FormControl>
           </Box>
 
