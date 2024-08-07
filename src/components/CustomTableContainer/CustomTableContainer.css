@@ -1,0 +1,95 @@
+/* Remove this container when use*/
+.component-title {
+  width: 100%;
+  position: absolute;
+  z-index: 999;
+  top: 30px;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #888;
+  text-align: center;
+}
+
+.tab-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 2px;
+}
+
+.indicator {
+  content: '';
+  width: 80px;
+  height: 28px;
+  background: transparent;
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  z-index: 9;
+  border-bottom: 4px solid #1c4dcc;
+  transition: all 0.2s ease-out;
+}
+
+.tab {
+  width: 110px;
+  height: 28px;
+  position: absolute;
+  z-index: 99;
+  outline: none;
+  opacity: 0;
+}
+
+.tab_label {
+  width: 110px;
+  height: 28px;
+  position: relative;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  font-weight: 600;
+  font-size: 1rem;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.tab--1:checked ~ .indicator {
+  left: 18px;
+}
+
+.tab--2:checked ~ .indicator {
+    left: calc(110px + 22px);
+}
+
+.tab--3:checked ~ .indicator {
+    left: calc(110px * 2 + 24px);
+}
+
+
+.component-scrollbar {
+    overflow: auto;
+}
+
+.component-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px; 
+  }
+  
+  .component-scrollbar::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+  
+  .component-scrollbar::-webkit-scrollbar-thumb {
+    background: #1c4dcc;
+    border-radius: 4px;
+  }
+  
+  .component-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #1c4dcc;
+  }
+  

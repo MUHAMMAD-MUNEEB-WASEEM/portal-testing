@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import AppRouting from './AppRouting';
+import './index.css';
 import Loader from './components/Loader';
 import './styles/App.css';
 import { BrowserRouter as Router } from 'react-router-dom';
