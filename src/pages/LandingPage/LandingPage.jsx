@@ -12,11 +12,8 @@ import CustomViewCard from '../../components/CustomViewCard/CustomViewCard';
 import InfoCard from '../../components/InfoCard/InfoCard';
 import { TbAdjustmentsDollar, TbCurrencyDollarOff } from 'react-icons/tb';
 import Header from '../../components/Header/Header';
-import Drawer, { MobileDrawer } from '../../components/Drawer/Drawer';
+import Drawer, { MobileDrawer } from '../../components/CustomDrawer/Drawer';
 
-function icon() {
-  return <TbCurrencyDollarOff />;
-}
 
 const tableHeaderText = ['client', 'date', 'email', 'amount', 'project/job', 'action']; // this is table static heading
 const tableData = [
@@ -274,8 +271,8 @@ const Landingpage = () => {
 
       <Box bg={'white'} h={2}></Box>
 
-          {/* className={classes.footer} for fix layout css className="grid grid-cols-1 md:grid-cols-3" */}
-      {/* <footer className={classes.footerSection}>
+      {/* className={classes.footer} for fix layout css className="grid grid-cols-1 md:grid-cols-3" */}
+      <footer className={classes.footerSection}>
         <div className={classes.footer} >
           <div className={classes.first}>
             <img src={InvizLogo} alt="" />
@@ -309,11 +306,11 @@ const Landingpage = () => {
             </div>
           </div>
         </div>
-      </footer> */}
+      </footer>
 
-      <div className="mx-w-4xl w-full mx-auto grid grid-cols-1 lg:grid-cols-4">
+      {/* <div className="mx-w-4xl w-full mx-auto grid grid-cols-1 lg:grid-cols-4">
         <div className="col-span-4 md:col-span-1">
-          <span className='block lg:hidden absolute z-10'>
+          <span className="block lg:hidden absolute z-10">
             <Button colorScheme="blue" onClick={onOpen}>
               Menu
             </Button>
@@ -325,8 +322,7 @@ const Landingpage = () => {
         </div>
         <div className="col-span-3">
           <main className="bg-slate-50 p-4">
-            {/* <Header /> */}
-            {/* created Dashboard Static view with Tailwind css */}
+           <Header /> 
             <section className="container w-full mx-auto grid gap-4 xs:grid-cols-1 sm:grid-cols-4 md:grid-cols-3 my-4">
               <div className="sm:col-span-2 md:col-span-1">
                 <CustomViewCard
@@ -432,7 +428,7 @@ const Landingpage = () => {
             </section>
           </main>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

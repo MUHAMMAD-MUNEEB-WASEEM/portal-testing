@@ -85,10 +85,10 @@ import TableNavigationMenu from './TableNavigationMenu';
 
 const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHeaderText }) => {
   return (
-    <TableContainer className="component-scrollbar h-[30vh] md:h-[46vh] lg:h-[44vh] xl:h-[40vh] bg-white">
+    <TableContainer className="component-scrollbar h-[60vh] md:h-[46vh] lg:h-[44vh] xl:h-[40vh] !overflow-y-scroll bg-white">
       <div className="flex justify-between gap-4 p-4">
         <div>
-          <Heading as="h4" className="!text-md">
+          <Heading as="h4" className="!text-md !text-black">
             {tableHeading || 'Table heading'}
           </Heading>
         </div>
@@ -157,7 +157,7 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
                   <Td className="tracking-wide lowercase font-medium text-gray-600">{values[3]}</Td>
                   <Td className="tracking-wide lowercase font-medium text-gray-600">{values[4]}</Td>
                   <Td
-                    className={`tracking-wide lowercase font-medium text-gray-600 capitalize ${values[5] === 'complete' && 'text-green-800'} ${values[5] === 'pending' && 'text-orange-500'} ${values[5] === 'failed' && 'text-red-800'}`}
+                    className={`tracking-wide  font-medium text-gray-600 capitalize ${values[5] === 'complete' && 'text-green-800'} ${values[5] === 'pending' && 'text-orange-500'} ${values[5] === 'failed' && 'text-red-800'}`}
                   >
                     {values[5]}
                   </Td>

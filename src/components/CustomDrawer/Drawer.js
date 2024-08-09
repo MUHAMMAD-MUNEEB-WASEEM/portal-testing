@@ -1,11 +1,9 @@
 import './drawer.css';
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerHeader,
   DrawerOverlay,
   Image,
   Menu,
@@ -90,7 +88,6 @@ const CustomDrawer = () => {
 export default CustomDrawer;
 
 function MobileDrawer({ isOpen, onOpen, onClose }) {
-  //   const { isOpen, onOpen, onClose } = useDisclosure()
   const [placement, setPlacement] = React.useState('left');
 
   return (

@@ -16,7 +16,7 @@ import {
   Menu,
 } from '@chakra-ui/react';
 
-const CustomViewCard = ({ headText, menuItems = [], mathsNum, percentageAmount }) => {
+const CustomViewCard = ({ headText, menuItems = [], amount, percentage }) => {
 
   return (
     <Card className="!shadow-none rounded-xl">
@@ -49,15 +49,15 @@ const CustomViewCard = ({ headText, menuItems = [], mathsNum, percentageAmount }
         <Stack divider={<StackDivider />} spacing="4">
           <Box>
             <Heading size="md" textTransform="uppercase">
-              $ {mathsNum ? String(Number(mathsNum).toFixed(2)) : '00.00'}
+              $ {amount ? String(Number(amount).toFixed(2)) : '00.00'}
             </Heading>
           </Box>
           <Box className="flex items-center justify-between">
-            <Heading size="xs" className={`${!(percentageAmount >= 0) ? 'text-red-600' : 'text-purple-600'}`}>
-              <span>{percentageAmount || '00.00'}</span>%
+            <Heading size="xs" className={`${!(amount >= 0) ? 'text-red-600' : 'text-purple-600'}`}>
+              <span>{percentage || '00.00'}</span>%
             </Heading>
             <div>
-              <TiChartArea size={32} className={`${!(percentageAmount >= 0) ? 'text-red-600' : 'text-purple-600'}`}/>
+              <TiChartArea size={32} className={`${!(percentage >= 0) ? 'text-red-600' : 'text-purple-600'}`}/>
             </div>
           </Box>
         </Stack>
