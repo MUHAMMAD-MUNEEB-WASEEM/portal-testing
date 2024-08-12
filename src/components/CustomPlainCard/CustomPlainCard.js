@@ -6,11 +6,11 @@ const CustomPlainCard = ({ bg, icon, heading, text }) => {
       <p className="flex items-center justify-start">
         <img
           src={icon}
-          className="h-16 w-16 object-cover"
+          className="h-10 w-10 object-cover"
           alt="Donut Icon"
         />
       </p>
-      <h2 className="text-lg font-bold mt-2">{heading}</h2>
+      <h2 className="text-2xl font-bold mt-2">{heading}</h2>
       <p className='mt-1'>{text}</p>
     </div>
   );

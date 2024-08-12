@@ -97,22 +97,22 @@ import styles from './HomePage.module.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { Flex, VStack } from '@chakra-ui/react';
-import DashboardHeading from '../../../components/DashboardHeading';
 import CustomViewCard from '../../../components/CustomViewCard/CustomViewCard';
 import InfoCard from '../../../components/InfoCard/InfoCard';
 import CustomTableContainer from '../../../components/CustomTableContainer/CustomTableContainer.js';
 import { TbAdjustmentsDollar, TbCurrencyDollarOff } from 'react-icons/tb';
 import CustomPlainCard from '../../../components/CustomPlainCard/CustomPlainCard';
 import { useInvoiceContext } from '../../../hooks/useInvoiceContext.js';
-import { useDispatch, useSelector } from 'react-redux';
 import { useAuthContext } from '../../../hooks/useAuthContext.js';
-import { api } from '../../../services/api.js';
-import { getAllRoles } from '../../../redux/roleSlice/actions.js';
 import useApi from '../../../hooks/useApi.js';
-
+import { get } from '../../../utils/fetch.js';
+import icon1 from '../../../images/icon-1.png'
+import icon2 from '../../../images/icon-2.png'
+import icon3 from '../../../images/icon-3.png'
+import icon4 from '../../../images/icon-4.png'
 // this all static data for table and all data from api should be in this format
 
-const tableHeaderText = ['client', 'date', 'email', 'amount', 'project/job', 'action']; // this is table static heading
+const tableHeaderText = ['email', 'date', 'amount', 'project/job', 'action']; // this is table static heading
 const tableData = [
   {
     client: 'neymar jr',
@@ -182,62 +182,71 @@ const tableData = [
 
 // second table
 const tableHeaderTextSec = ['client name', 'date joining', 'email', 'count']; // this is table static heading
-const tableDataSec = [
-  {
-    client: 'neymar jr',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-  {
-    client: 'CR7',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-  {
-    client: 'mbappe ',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '+923252105103',
-  },
-]; // this is table static data
+// const tableDataSec = [
+//   {
+//     client: 'neymar jr',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+//   {
+//     client: 'CR7',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+//   {
+//     client: 'mbappe ',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+//   {
+//     client: 'jhon smith',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+//   {
+//     client: 'jhon smith',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+//   {
+//     client: 'jhon smith',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+//   {
+//     client: 'jhon smith',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+//   {
+//     client: 'jhon smith',
+//     date: 'DD MM YYYY',
+//     email: 'example@gmail.com',
+//     amount: '+923252105103',
+//   },
+// ]; // this is table static data
 
 const HomePage = () => {
   const location = useLocation();
   const { user } = useAuthContext();
   const { error, loading, apiCall } = useApi();
   const { users, dispatch } = useInvoiceContext();
+  const [invoice, setInvoice] = useState(null);
+
+  const [filters, setFilters] = useState({
+    page: 1,
+    sort: '',
+    limit: 10,
+    search: '',
+  });
+
   useEffect(() => {
     if (location.pathname === '/dashboard/main') {
       localStorage.setItem('ActiveText', 'Dashboard');
@@ -245,24 +254,52 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    (async () => {
       try {
-        const data = await apiCall('/api/v1/admin/user');
-        if (data) {
+        // Define the API calls
+        const userApiCall = apiCall('/api/v1/admin/user');
+        const invoiceApiCall = get('admin/invoice', filters);
+
+        // Execute both API calls concurrently
+        const [userResponse, invoiceResponse] = await Promise.all([userApiCall, invoiceApiCall]);
+
+        
+        const invoiceDate = invoiceResponse.data.map((v) => {
+          return {
+            client: v.clientEmail,
+            date: v.invoiceDate,
+            email: v.totalDue,
+            amount: 'project',
+            project: v.status,
+            // status: v.status,
+          };
+        })
+        setInvoice(invoiceDate);
+
+        if (userResponse) {
           dispatch({
             type: 'GET_USERS',
-            payload: data?.data,
+            payload: userResponse?.data,
           });
         }
       } catch (error) {
         console.log('Fetch Error', error);
       }
-    };
-    fetchUsers();
+    })();
   }, [user]);
 
-  console.log('dashboard k home page pr', users);
-  
+  // sort data for user table
+  const userTableData =
+    users.length &&
+    users?.map((elem) => {
+      return {
+        client: elem.name,
+        date: new Date(elem.createdAt).toDateString(),
+        email: elem.email,
+        amount: elem.pkNumber,
+      };
+    });
+
   return (
     <VStack spacing="6" align="stretch" p="4">
       <Flex mb={6} justifyContent="space-between" alignItems="end">
@@ -299,12 +336,13 @@ const HomePage = () => {
       <section className="w-full mx-auto">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="md:col-span-2">
-            <CustomTableContainer
+            {invoice?.length && (<CustomTableContainer
               menu={true}
               tableHeading={'Previous Transaction'}
               tableHeaderText={tableHeaderText}
-              tableData={tableData}
-            />
+              tableData={invoice}
+              link={'/dashboard/invoices'}
+            />)}
           </div>
 
           <aside className="text-white">
@@ -312,36 +350,27 @@ const HomePage = () => {
               <div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
                 <CustomPlainCard
                   bg={'bg-blue-500'}
-                  icon={
-                    'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
-                  }
-                  text={'add any text here'}
-                  heading={'Heading'}
+                  icon={icon1}
+                  heading={'1245'}
+                  text={'Total invoices'}
                 />
-
                 <CustomPlainCard
                   bg={'bg-yellow-500'}
-                  icon={
-                    'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
-                  }
-                  text={'add any text here'}
-                  heading={'Heading'}
+                  icon={icon2}
+                  heading={'1245'}
+                  text={'paid invoices'}
                 />
                 <CustomPlainCard
                   bg={'bg-cyan-500'}
-                  icon={
-                    'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
-                  }
-                  text={'add any text here'}
-                  heading={'Heading'}
+                  icon={icon3}
+                  heading={'1245'}
+                  text={'unpaid invoices'}
                 />
                 <CustomPlainCard
                   bg={'bg-red-500'}
-                  icon={
-                    'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
-                  }
-                  text={'add any text here'}
-                  heading={'Heading'}
+                  icon={icon4}
+                  heading={'1245'}
+                  text={'Total invoices sent'}
                 />
               </div>
             </div>
@@ -369,7 +398,8 @@ const HomePage = () => {
           <CustomTableContainer
             tableHeading={'Users'}
             tableHeaderText={tableHeaderTextSec}
-            tableData={tableDataSec}
+            tableData={userTableData}
+            link={'/dashboard/clients'}
           />
         </div>
       </section>

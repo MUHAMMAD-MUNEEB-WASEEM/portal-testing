@@ -14,6 +14,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import TableNavigationMenu from './TableNavigationMenu';
+import { Link } from 'react-router-dom';
 
 // const tableHeaderText = ['client', 'date', 'email', 'amount', 'project/job', 'action'];
 // const tableData = [
@@ -83,7 +84,7 @@ import TableNavigationMenu from './TableNavigationMenu';
 //   },
 // ];
 
-const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHeaderText }) => {
+const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHeaderText, link }) => {
   return (
     <TableContainer className="component-scrollbar h-[60vh] md:h-[46vh] lg:h-[44vh] xl:h-[40vh] !overflow-y-scroll bg-white">
       <div className="flex justify-between gap-4 p-4">
@@ -111,11 +112,11 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
               <label className="tab_label select-none mt-2 capitalize text-gray-600" for="tab3">
                 monthly
               </label>
-              <div class="indicator"></div>
+              <div className="indicator"></div>
             </div> */}
-          <Text className="font-semibold mt-2 mb-2 sm:ms-6 border-b-4  border-[#1c4dcc] text-[#1c4dcc] select-none">
+          <Link to={link} className="font-semibold mt-2 mb-2 sm:ms-6 border-b-4  border-[#1c4dcc] text-[#1c4dcc] select-none">
             View All
-          </Text>
+          </Link>
         </div>
       </div>
 
@@ -125,7 +126,7 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
           <Tr>
             {tableHeaderText.map((item, index) => (
               <Th key={index}>
-                <Heading as={'th'} size={'sm'}>
+                <Heading as={'h2'} size={'sm'} >
                   {item}
                 </Heading>
               </Th>
@@ -150,17 +151,17 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
                 <Tr key={i}>
                   <Td className="flex gap-2 items-center tracking-wide lowercase font-medium text-gray-600">
                     {userIcon()} {/* This function returns icon in svg for user */}
-                    {values[0] || 'Client'}
+                    {values[0] || 'no name'}
                   </Td>
                   <Td className="tracking-wide lowercase font-medium text-gray-600">{values[1]}</Td>
                   <Td className="tracking-wide lowercase font-medium text-gray-600">{values[2]}</Td>
                   <Td className="tracking-wide lowercase font-medium text-gray-600">{values[3]}</Td>
-                  <Td className="tracking-wide lowercase font-medium text-gray-600">{values[4]}</Td>
                   <Td
-                    className={`tracking-wide  font-medium text-gray-600 capitalize ${values[5] === 'complete' && 'text-green-800'} ${values[5] === 'pending' && 'text-orange-500'} ${values[5] === 'failed' && 'text-red-800'}`}
+                    className={`tracking-wide  font-medium text-gray-600 capitalize ${values[4] === 'paid' && 'text-green-800'} ${values[4] === 'pending' && 'text-orange-500'} ${values[4] === 'unpaid' && 'text-red-800'}`}
                   >
-                    {values[5]}
+                    {values[4]}
                   </Td>
+                  {/* <Td className="tracking-wide lowercase font-medium text-gray-600">{values[4]}</Td> */}
                 </Tr>,
               );
             }
@@ -202,3 +203,38 @@ function userIcon() {
     </svg>
   );
 }
+
+
+// {(() => {
+//   const rows = [];
+//   for (let i = 0; i < tableData.length; i++) {
+//     const data = tableData[i];
+//     const values = [
+//       data.client || '', // Default empty string if key is missing
+//       data.date || '',
+//       data.email || '',
+//       data.amount || '',
+//       data.project || '',
+//       data.status || '',
+//     ];
+
+//     rows.push(
+//       <Tr key={i}>
+//         <Td className="flex gap-2 items-center tracking-wide lowercase font-medium text-gray-600">
+//           {userIcon()} {/* This function returns icon in svg for user */}
+//           {values[0] || 'no name'}
+//         </Td>
+//         <Td className="tracking-wide lowercase font-medium text-gray-600">{values[1]}</Td>
+//         <Td className="tracking-wide lowercase font-medium text-gray-600">{values[2]}</Td>
+//         <Td className="tracking-wide lowercase font-medium text-gray-600">{values[3]}</Td>
+//         <Td className="tracking-wide lowercase font-medium text-gray-600">{values[4]}</Td>
+//         <Td
+//           className={`tracking-wide  font-medium text-gray-600 capitalize ${values[5] === 'complete' && 'text-green-800'} ${values[5] === 'pending' && 'text-orange-500'} ${values[5] === 'failed' && 'text-red-800'}`}
+//         >
+//           {values[5]}
+//         </Td>
+//       </Tr>,
+//     );
+//   }
+//   return rows;
+// })()}
