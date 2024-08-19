@@ -107,8 +107,10 @@ import { CiSquareChevDown } from 'react-icons/ci';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useLogout } from '../../../hooks/useLogout';
+import { BiLogOut } from "react-icons/bi";
 
-const Header = ({ onOpen }) => {
+
+const Header = ({ onOpen, user }) => {
   const { logout } = useLogout();
   return (
     <header className="bg-white text-black  p-4 rounded-2xl mt-2 mx-4">
@@ -154,12 +156,12 @@ const Header = ({ onOpen }) => {
             size="md"
             className="rounded-xs"
             borderRadius="10"
-            name="Dan Abrahmov"
-            src="https://bit.ly/dan-abramov"
+            name={user ? user.data?.name : "Jhon Doe"}
+            src={user.data ? user.data?.userImage : 'https://bit.ly/dan-abramov'}
           />
-          <Box>
-            <Text className="font-semibold text-sm">Neymar JR</Text>
-            <Text className="font-semibold text-sm">Designation</Text>
+          <Box className='min-w-28'>
+            <Text className="font-semibold text-sm">{user ? user.data?.name : "Jhon Doe"}</Text>
+            <Text className="font-semibold text-sm">{user ? user.data?.role : "role area"}</Text>
           </Box>
           <Menu isLazy placement="bottom-end">
             <MenuButton className="hover:bg-gray-100 p-2 rounded-full">
@@ -179,9 +181,10 @@ const Header = ({ onOpen }) => {
                 <IoNotificationsOutline className="text-lg md:text-xl !block !md:hidden me-2" />
                 setting
               </MenuItem>
-              <MenuItem className="text-sm w-full">Item-1</MenuItem>
-              <MenuItem className="text-sm w-full">Item-2</MenuItem>
-              <MenuItem className="text-sm w-full" onClick={logout}>Logout</MenuItem>
+              <MenuItem className="text-sm !bg-red-900 !text-white w-full" onClick={logout}>
+                <BiLogOut className="text-lg md:text-xl !block !md:hidden me-2" />
+                Logout
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>

@@ -27,9 +27,12 @@ import Sidebar, { MobileDrawer } from '../Sidebar';
 import Topbar from '../Topbar';
 import ErrorBoundary from '../../../components/ErrorBoundaries/ErrorBoundary';
 import { Box, Button, Drawer, Flex, useDisclosure } from '@chakra-ui/react';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const Layout = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useAuthContext();
+
   return (
     <Flex h="100vh" color="white" overflow="hidden" className='!bg-gray-200'>
       <aside>
@@ -41,7 +44,7 @@ const Layout = (props) => {
         </div>
       </aside>
       <Flex direction="column" w="full" overflowY="scroll">
-        <Topbar onOpen={onOpen} />
+        <Topbar onOpen={onOpen} user={user} />
         <Box as="div" px="5">
           <ErrorBoundary>{props.children}</ErrorBoundary>
         </Box>
