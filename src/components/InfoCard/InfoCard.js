@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, CardHeader, Heading, Text, Box } from '@chakra-ui/react';
 
 const InfoCard = ({ title, amount = '', icon, number, type= '' }) => (
-  <Card shadow="none" borderRadius="xl" className=' h-auto sm:h-[20vh]'>
+  <Card shadow="none" borderRadius="xl" className=' h-auto sm:h-[20vh] !rounded-md'>
     <CardHeader className="mb-[-18px] flex items-center justify-between">
       <Heading size="md" className='capitalize'>{title || 'Information'}</Heading>
       <span className={`${type === 'warning' && 'text-orange-600'} ${type === 'danger' && 'text-red-600'} ${type === 'info' && 'text-slate-600'}`}>

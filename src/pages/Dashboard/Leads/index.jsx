@@ -127,7 +127,7 @@ const Leads = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {!!leads.length > 0 &&
+              {!!leads?.length > 0 &&
                 leads?.map((e, i) => (
                   <Tr key={i} style={{ cursor: 'pointer' }}>
                     <Td>

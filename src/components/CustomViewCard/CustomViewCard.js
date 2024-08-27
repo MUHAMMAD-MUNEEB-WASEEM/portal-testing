@@ -19,7 +19,7 @@ import {
 const CustomViewCard = ({ headText, menuItems = [], amount, percentage }) => {
 
   return (
-    <Card className="!shadow-none rounded-xl">
+    <Card className="!shadow-none rounded-md">
       <CardHeader className="flex justify-between">
         <Text size="md" className="font-bold text-xs uppercase">
           {headText || 'No Head Text'}
@@ -35,7 +35,7 @@ const CustomViewCard = ({ headText, menuItems = [], amount, percentage }) => {
             }}
           >
             {Array.isArray(menuItems) &&
-              menuItems.length &&
+              menuItems?.length &&
               menuItems.map((item, i) => (
                 <MenuItem className="text-sm w-full" key={i}>
                   {item}

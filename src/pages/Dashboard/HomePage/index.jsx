@@ -290,7 +290,7 @@ const HomePage = () => {
 
   // sort data for user table
   const userTableData =
-    users.length &&
+    users?.length &&
     users?.map((elem) => {
       return {
         client: elem.name,

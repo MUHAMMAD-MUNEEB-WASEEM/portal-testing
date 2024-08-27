@@ -136,7 +136,7 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
         <Tbody>
           {(() => {
             const rows = [];
-            for (let i = 0; i < tableData.length; i++) {
+            for (let i = 0; i < tableData?.length; i++) {
               const data = tableData[i];
               const values = [
                 data.client || '', // Default empty string if key is missing

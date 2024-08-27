@@ -2,7 +2,7 @@ import React from 'react';
 // bg-[${!!bg ? bg: "red"}]
 const CustomPlainCard = ({ bg, icon, heading, text }) => {
   return (
-    <div className={`${bg ? bg : "bg-red-500"} p-4 text-white w-full rounded-lg`}>
+    <div className={`${bg ? bg : "bg-red-500"} p-4 text-white w-full rounded-md`}>
       <p className="flex items-center justify-start">
         <img
           src={icon}

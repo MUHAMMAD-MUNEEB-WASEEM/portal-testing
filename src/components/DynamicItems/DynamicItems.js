@@ -38,7 +38,7 @@ const DynamicItems = ({ items, setCreateInvoice, createInvoice, setError }) => {
   const selectItem = (id) => {
     console.log('id', id);
     // console.log("e>>>", e.target.value);
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < items?.length; i++) {
       if (items[i]._id === id) setSelectedItem(items[i]);
     }
     setQuantityInputShown(true);
@@ -190,7 +190,7 @@ const DynamicItems = ({ items, setCreateInvoice, createInvoice, setError }) => {
     <div>
       Items
       <div className={styles.detailsBox}>
-        {items.length > 0 ? (
+        {items?.length > 0 ? (
           // <select ref={ref} onChange={(e) => selectItem(e)}>
           //   <option style={{ display: "none" }}>Select an Item</option>
           //   {items &&

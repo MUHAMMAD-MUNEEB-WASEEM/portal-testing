@@ -112,8 +112,8 @@ const InvoiceForm = () => {
           newProductLine[name] = value;
         } else {
           if (
-            value[value.length - 1] === '.' ||
-            (value[value.length - 1] === '0' && value.includes('.'))
+            value[value?.length - 1] === '.' ||
+            (value[value?.length - 1] === '0' && value.includes('.'))
           ) {
             newProductLine[name] = value;
           } else {
