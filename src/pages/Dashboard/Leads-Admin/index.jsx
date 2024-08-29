@@ -181,7 +181,7 @@ const Leads = () => {
             </Tbody>
           </Table>
           <Flex justifyContent={'flex-end'}>
-            {!!leads.length && !!total && (
+            {!!leads?.length && !!total && (
               <Box>
                 <Flex justifyContent={'center'} alignItems={'center'}>
                   <Text fontSize={12} color="brand.primary">

@@ -4,3 +4,7 @@
 .richTextEditor ol {
   padding-left: 30px !important;
 }
+
+.chakra-modal__body {
+  padding: 0 !important;
+}

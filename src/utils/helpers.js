@@ -54,7 +54,7 @@ export const renderCheckboxes = (items, selectedItems, handleCheckboxChange) => 
   return (
     <div style={{ marginTop: '5px' }}>
       {items &&
-        items.length > 0 &&
+        items?.length > 0 &&
         items.map((item, i) => (
           <div key={i} style={{ display: 'flex', gap: '15px' }}>
             <input

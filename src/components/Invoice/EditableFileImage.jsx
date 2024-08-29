@@ -40,7 +40,7 @@ const EditableFileImage = ({
     if (fileInput?.current?.files) {
       const files = fileInput.current.files;
 
-      if (files.length > 0 && typeof onChangeImage === 'function') {
+      if (files?.length > 0 && typeof onChangeImage === 'function') {
         const reader = new FileReader();
 
         reader.addEventListener('load', () => {

@@ -1,14 +1,143 @@
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import Navbar from '../../components/Navbar/Navbar';
-
+import CustomTableContainer from '../../components/CustomTableContainer/CustomTableContainer';
 import classes from './LandingPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { Box, useColorMode } from '@chakra-ui/react';
+import { Box, Button, useColorMode, useDisclosure } from '@chakra-ui/react';
 import { InvizLogo } from '../../images';
 import { useEffect } from 'react';
+import CustomPlainCard from '../../components/CustomPlainCard/CustomPlainCard';
+import CustomViewCard from '../../components/CustomViewCard/CustomViewCard';
+import InfoCard from '../../components/InfoCard/InfoCard';
+import { TbAdjustmentsDollar, TbCurrencyDollarOff } from 'react-icons/tb';
+import Header from '../../components/Header/Header';
+import Drawer, { MobileDrawer } from '../../components/CustomDrawer/Drawer';
+
+
+const tableHeaderText = ['client', 'date', 'email', 'amount', 'project/job', 'action']; // this is table static heading
+const tableData = [
+  {
+    client: 'neymar jr',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'job',
+    status: 'complete',
+  },
+  {
+    client: 'CR7',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'job',
+    status: 'failed',
+  },
+  {
+    client: 'mbappe ',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'project',
+    status: 'pending',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'project',
+    status: 'pending',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'project',
+    status: 'pending',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'project',
+    status: 'pending',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'project',
+    status: 'pending',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '$ 400',
+    project: 'project',
+    status: 'pending',
+  },
+]; // this is table static data
+
+// second table
+const tableHeaderTextSec = ['client name', 'date joining', 'email', 'count']; // this is table static heading
+const tableDataSec = [
+  {
+    client: 'neymar jr',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+  {
+    client: 'CR7',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+  {
+    client: 'mbappe ',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+  {
+    client: 'jhon smith',
+    date: 'DD MM YYYY',
+    email: 'example@gmail.com',
+    amount: '+923252105103',
+  },
+]; // this is table static data
 
 const Landingpage = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure(); // this is for drawer
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
   const { user } = useAuthContext();
@@ -142,8 +271,9 @@ const Landingpage = () => {
 
       <Box bg={'white'} h={2}></Box>
 
+      {/* className={classes.footer} for fix layout css className="grid grid-cols-1 md:grid-cols-3" */}
       <footer className={classes.footerSection}>
-        <div className={classes.footer}>
+        <div className={classes.footer} >
           <div className={classes.first}>
             <img src={InvizLogo} alt="" />
             <div className={classes.firstInner}>
@@ -177,6 +307,128 @@ const Landingpage = () => {
           </div>
         </div>
       </footer>
+
+      {/* <div className="mx-w-4xl w-full mx-auto grid grid-cols-1 lg:grid-cols-4">
+        <div className="col-span-4 md:col-span-1">
+          <span className="block lg:hidden absolute z-10">
+            <Button colorScheme="blue" onClick={onOpen}>
+              Menu
+            </Button>
+          </span>
+          <MobileDrawer isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+          <span className="hidden lg:block">
+            <Drawer />
+          </span>
+        </div>
+        <div className="col-span-3">
+          <main className="bg-slate-50 p-4">
+           <Header /> 
+            <section className="container w-full mx-auto grid gap-4 xs:grid-cols-1 sm:grid-cols-4 md:grid-cols-3 my-4">
+              <div className="sm:col-span-2 md:col-span-1">
+                <CustomViewCard
+                  headText={'total volume'}
+                  menuItems={['fist item', 'second item', 'third item']}
+                  percentageAmount={'+200'}
+                  mathsNum={'8025345.4232'}
+                />
+              </div>
+              <div className="sm:col-span-2 md:col-span-1">
+                <CustomViewCard
+                  headText={'total transaction'}
+                  menuItems={['2.fist item', '2.second item', '2.third item']}
+                  percentageAmount={'-2.48'}
+                  mathsNum={'500'}
+                />
+              </div>
+              <div className="sm:col-span-4 md:col-span-1">
+                <CustomViewCard
+                  headText={'payable amount'}
+                  menuItems={['3.fist item', '3.second item', '3.third item']}
+                  percentageAmount={'+200'}
+                  mathsNum={'504232.545'}
+                />
+              </div>
+            </section>
+            <section className="container w-full mx-auto">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="md:col-span-2">
+                  <CustomTableContainer
+                    menu={true}
+                    tableHeading={'Previous Transaction'}
+                    tableHeaderText={tableHeaderText}
+                    tableData={tableData}
+                  />
+                </div>
+
+                <aside className="text-white">
+                  <div className="container h-[40vh] md:h-[46vh] lg:h-[44vh] xl:h-[40vh] w-full mx-auto">
+                    <div className="grid gap-4 grid-cols-2">
+                      <CustomPlainCard
+                        bg={'bg-blue-500'}
+                        icon={
+                          'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
+                        }
+                        text={'add any text here'}
+                        heading={'Heading'}
+                      />
+
+                      <CustomPlainCard
+                        bg={'bg-yellow-500'}
+                        icon={
+                          'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
+                        }
+                        text={'add any text here'}
+                        heading={'Heading'}
+                      />
+                      <CustomPlainCard
+                        bg={'bg-cyan-500'}
+                        icon={
+                          'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
+                        }
+                        text={'add any text here'}
+                        heading={'Heading'}
+                      />
+                      <CustomPlainCard
+                        bg={'bg-red-500'}
+                        icon={
+                          'https://images.vexels.com/media/users/3/185202/isolated/preview/04210f166dee214fc751791106b453b2-donut-pink-syrup-icon.png'
+                        }
+                        text={'add any text here'}
+                        heading={'Heading'}
+                      />
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+            <section className="container w-full mx-auto grid gap-4 grid-cols-1 md:grid-cols-2 mt-4">
+              <div className="container w-full mx-auto grid gap-4 grid-cols-2">
+                <InfoCard
+                  title={'charge back'}
+                  amount={'200,000'}
+                  number={'2'}
+                  type="danger"
+                  icon={<TbCurrencyDollarOff size={32} />}
+                />
+
+                <InfoCard
+                  title={'refund'}
+                  amount={'200,000'}
+                  type="warning"
+                  icon={<TbAdjustmentsDollar size={32} />}
+                />
+              </div>
+              <div>
+                <CustomTableContainer
+                  tableHeading={'Users'}
+                  tableHeaderText={tableHeaderTextSec}
+                  tableData={tableDataSec}
+                />
+              </div>
+            </section>
+          </main>
+        </div>
+      </div> */}
     </>
   );
 };

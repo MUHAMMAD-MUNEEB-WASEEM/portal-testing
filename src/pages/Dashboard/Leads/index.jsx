@@ -98,20 +98,20 @@ const Leads = () => {
                   Add Lead
                 </Button>
               )}
-              <Button onClick={refresh} bg="brand.secondary" color="brand.text">
+              <Button onClick={refresh} bg="brand.secondary" color="brand.text" className='!bg-blue-700 !text-white'>
                 <RefreshCw />
               </Button>
             </Flex>
           </Flex>
 
-          <Table colorScheme="blue" variant="simple" bg="brand.primary">
-            <Thead>
+          <Table colorScheme="blue" variant="simple" className='rounded-md overflow-hidden'>
+            <Thead className='rounded-md bg-blue-700'>
               <Tr
                 borderTopLeftRadius="10px"
                 py="10px"
                 fontWeight="600"
                 fontSize="16px"
-                bg="brand.secondary"
+                // bg="brand.secondary"
               >
                 <Th color="brand.text">Client Name</Th>
                 <Th color="brand.text">Email</Th>
@@ -127,7 +127,7 @@ const Leads = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {!!leads.length > 0 &&
+              {!!leads?.length > 0 &&
                 leads?.map((e, i) => (
                   <Tr key={i} style={{ cursor: 'pointer' }}>
                     <Td>

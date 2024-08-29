@@ -94,7 +94,7 @@ const InvoiceComponent = () => {
   const handleEditmodal = (e) => {
     setEditModalOpen(true);
     setCurrentId(e._id);
-    dispatch(getOneInvoice({ id: e._id })).then(() => {});
+    dispatch(getOneInvoice({ id: e._id })).then(() => { });
   };
 
   const onChangeStatus = (e) => {
@@ -133,26 +133,26 @@ const InvoiceComponent = () => {
                 <Button
                   px={6}
                   onClick={() => navigate('add')}
-                  bg="brand.secondary"
+                  className='!bg-blue-700 !px-8'
                   color="brand.text"
                 >
                   Add Invoice
                 </Button>
               )}
-              <Button onClick={refresh} bg="brand.secondary" color="brand.text">
+              <Button onClick={refresh} bg="brand.secondary" className='!bg-blue-700 !text-white'>
                 <RefreshCw />
               </Button>
             </Flex>
           </Flex>
 
-          <Table colorScheme="blue" variant="simple" bg="brand.primary">
-            <Thead>
+          <Table colorScheme="blue" variant="simple" className='rounded-md overflow-hidden'>
+            <Thead className='rounded-md bg-blue-700'>
               <Tr
                 borderTopLeftRadius="10px"
                 py="10px"
                 fontWeight="600"
                 fontSize="16px"
-                bg="brand.secondary"
+              // bg="brand.secondary"
               >
                 <Th color="brand.text">Number</Th>
                 <Th color="brand.text">Total Due</Th>
@@ -164,7 +164,7 @@ const InvoiceComponent = () => {
                 <Th color="brand.text"></Th>
               </Tr>
             </Thead>
-            <Tbody>
+            <Tbody className='bg-white text-gray-800'>
               {invoices?.map((e, i) => (
                 <Tr key={i} style={{ cursor: 'pointer' }}>
                   <Td>
@@ -233,6 +233,7 @@ const InvoiceComponent = () => {
                     fontWeight="600"
                     variant="outline"
                     border="2px solid #1b9ee4"
+                    className='!border-blue-700'
                     w="50%"
                   />
                 </Flex>

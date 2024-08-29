@@ -39,7 +39,7 @@ const Pagination = ({
   return (
     <nav>
       <ul className={styles.pagination}>
-        {pageNumber.length > 1
+        {pageNumber?.length > 1
           ? pageNumber.map((number) => (
               <li className={styles.page_item} key={number}>
                 <a href="#" onClick={() => paginate(number)} className={styles.page_link}>

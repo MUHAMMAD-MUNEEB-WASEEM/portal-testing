@@ -88,7 +88,7 @@ const UpdateDynamicItem = ({ items, setCreateInvoice, createInvoice, setError })
   const selectItem = (e) => {
     console.log('e>>>>', e.target.value);
 
-    for (let i = 0; i < itemslist.length; i++) {
+    for (let i = 0; i < itemslist?.length; i++) {
       console.log('items[i]._id', itemslist[i]._id);
       if (itemslist[i]._id === e.target.value) setSelectedItem(itemslist[i]);
     }
@@ -178,7 +178,7 @@ const UpdateDynamicItem = ({ items, setCreateInvoice, createInvoice, setError })
     <div>
       Items
       <div className={styles.detailsBox}>
-        {itemslist.length > 0 ? (
+        {itemslist?.length > 0 ? (
           <select onChange={(e) => selectItem(e)}>
             <option style={{ display: 'none' }}>Select an Item</option>
             {itemslist &&
