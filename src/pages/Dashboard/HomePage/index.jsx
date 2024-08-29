@@ -96,7 +96,7 @@ import styles from './HomePage.module.css';
 // import outcome from '../../../images/outcome.png';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { Flex, VStack } from '@chakra-ui/react';
+import { Flex, Heading, Spinner, VStack } from '@chakra-ui/react';
 import CustomViewCard from '../../../components/CustomViewCard/CustomViewCard';
 import InfoCard from '../../../components/InfoCard/InfoCard';
 import CustomTableContainer from '../../../components/CustomTableContainer/CustomTableContainer.js';
@@ -110,6 +110,8 @@ import icon1 from '../../../images/icon-1.png'
 import icon2 from '../../../images/icon-2.png'
 import icon3 from '../../../images/icon-3.png'
 import icon4 from '../../../images/icon-4.png'
+import DashboardHeading from '../../../components/DashboardHeading/index.jsx';
+import Loading from '../../../components/Loader/index.jsx';
 // this all static data for table and all data from api should be in this format
 
 const tableHeaderText = ['email', 'date', 'amount', 'project/job', 'action']; // this is table static heading
@@ -263,7 +265,6 @@ const HomePage = () => {
         // Execute both API calls concurrently
         const [userResponse, invoiceResponse] = await Promise.all([userApiCall, invoiceApiCall]);
 
-        
         const invoiceDate = invoiceResponse.data.map((v) => {
           return {
             client: v.clientEmail,
@@ -299,7 +300,7 @@ const HomePage = () => {
         amount: elem.pkNumber,
       };
     });
-
+    
   return (
     <VStack spacing="6" align="stretch" p="4">
       <Flex mb={6} justifyContent="space-between" alignItems="end">
@@ -334,15 +335,33 @@ const HomePage = () => {
       </section>
 
       <section className="w-full mx-auto">
+        <h1 className="text-black text-3xl font-bold mb-6">Transaction</h1>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="md:col-span-2">
-            {invoice?.length && (<CustomTableContainer
-              menu={true}
-              tableHeading={'Previous Transaction'}
-              tableHeaderText={tableHeaderText}
-              tableData={invoice}
-              link={'/dashboard/invoices'}
-            />)}
+            {!loading ? (
+              <>
+                {
+                  invoice?.length && (<CustomTableContainer
+                    menu={true}
+                    // tableHeading={'Previous Transaction'}
+                    tableHeaderText={tableHeaderText}
+                    tableData={invoice}
+                    link={'/dashboard/invoices'}
+                  />
+                  )}
+              </>
+            ) : (
+              <>
+                <Flex
+                className='h-full'
+                  display={'flex'}
+                  alignItems="center"
+                  justifyContent={'center'}
+                >
+                  <Spinner thickness="10px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+                </Flex>
+              </>
+            )}
           </div>
 
           <aside className="text-white">
@@ -377,32 +396,31 @@ const HomePage = () => {
           </aside>
         </div>
       </section>
-      <section className="container w-full mx-auto grid gap-4 grid-cols-1 md:grid-cols-2 mt-4">
-        <div className="container w-full mx-auto grid gap-4 grid-cols-2">
-          <InfoCard
-            title={'charge back'}
-            amount={'200,000'}
-            number={'2'}
-            type="danger"
-            icon={<TbCurrencyDollarOff size={32} />}
-          />
+      <h1 className="text-black text-3xl font-bold">Charge/Refund</h1>
+      <section className="w-full mx-auto grid grid-cols-2 gap-4">
+        <InfoCard
+          title={'charge back'}
+          amount={'200,000'}
+          number={'2'}
+          type="danger"
+          icon={<TbCurrencyDollarOff size={32} />}
+        />
 
-          <InfoCard
-            title={'refund'}
-            amount={'200,000'}
-            type="warning"
-            icon={<TbAdjustmentsDollar size={32} />}
-          />
-        </div>
-        <div>
-          <CustomTableContainer
-            tableHeading={'Users'}
-            tableHeaderText={tableHeaderTextSec}
-            tableData={userTableData}
-            link={'/dashboard/clients'}
-          />
-        </div>
+        <InfoCard
+          title={'refund'}
+          amount={'200,000'}
+          type="warning"
+          icon={<TbAdjustmentsDollar size={32} />}
+        />
       </section>
+
+      <h1 className="text-black text-3xl font-bold">Client</h1>
+      <CustomTableContainer
+        // tableHeading={'Users'}
+        tableHeaderText={tableHeaderTextSec}
+        tableData={userTableData}
+        link={'/dashboard/clients'}
+      />
     </VStack>
   );
 };

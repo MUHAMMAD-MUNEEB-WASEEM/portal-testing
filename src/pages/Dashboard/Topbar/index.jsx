@@ -165,7 +165,7 @@ const Header = ({ onOpen, user }) => {
           </Box>
           <Menu isLazy placement="bottom-end">
             <MenuButton className="hover:bg-gray-100 p-2 rounded-full">
-              <CiSquareChevDown />
+              <CiSquareChevDown size={20} className='text-black'/>
             </MenuButton>
             <MenuList
               minWidth="120px"

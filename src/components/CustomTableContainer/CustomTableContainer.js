@@ -89,9 +89,9 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
     <TableContainer className="component-scrollbar h-[60vh] md:h-[46vh] lg:h-[44vh] xl:h-[40vh] bg-white !overflow-y-scroll rounded-md">
       <div className="flex justify-between gap-4 p-4">
         <div>
-          <Heading as="h4" className="!text-md !text-black">
+          {/* <Heading as="h4" className="!text-md !text-black">
             {tableHeading || 'Table heading'}
-          </Heading>
+          </Heading> */}
         </div>
 
         <div className="flex">

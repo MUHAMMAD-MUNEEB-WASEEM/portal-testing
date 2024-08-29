@@ -16,7 +16,7 @@ const MonetarysManagement = () => {
   return (
     <section className={styles.container}>
       <div className={styles.top}>
-        <h1 style={{ fontSize: '2rem' }}>Monetary Management</h1>
+        <h1 className='text-[2rem] !text-blue-700'>Monetary Management</h1>
       </div>
       {/* <div className={styles.project_dashboard_table}>
         <table>
@@ -59,7 +59,7 @@ const MonetarysManagement = () => {
       </div> */}
       <div className={styles.tabContainer}>
         {sublinks.map((e) => (
-          <Link className={styles.eachTab} to={`/dashboard/monetary-managment${e.link}`}>
+          <Link className={`${styles.eachTab} !bg-blue-700`} to={`/dashboard/monetary-managment${e.link}`}>
             {e.page}
           </Link>
         ))}

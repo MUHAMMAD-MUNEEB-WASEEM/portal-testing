@@ -24,35 +24,34 @@ const TablePage = ({ pageTitle, createBtnText = null, navigateUrl = '', data }) 
   return (
     <VStack spacing="6" align="stretch" p="4">
       <Flex w="100%" justifyContent="space-between">
-        <Heading color="brand.primary" as="h2" fontSize="2rem">
+        <Heading color="brand.primary" as="h2" fontSize="2rem" className='!text-blue-700'>
           {pageTitle}
         </Heading>
         {createBtnText && (
-          <Button colorScheme="blue" onClick={() => navigate(navigateUrl)}>
+          <Button colorScheme="blue" onClick={() => navigate(navigateUrl)} className='!bg-blue-700'>
             {createBtnText}
           </Button>
         )}
       </Flex>
 
       <Box>
-        <Table colorScheme="blue" variant="simple" bg="brand.primary">
-          <Thead>
+        <Table colorScheme="blue" variant="simple" className='rounded-md overflow-hidden'>
+          <Thead className='rounded-md bg-blue-700'>
             <Tr
               borderTopLeftRadius="10px"
               py="10px"
               fontWeight="600"
               fontSize="16px"
-              bg="brand.secondary"
             >
               <Th color="brand.text">Amount</Th>
               <Th color="brand.text">Month</Th>
               <Th color="brand.text">Year</Th>
               <Th color="brand.text">BUH</Th>
-              {pageTitle === 'Expenses' && <Th>Description</Th>}
+              {pageTitle === 'Expenses' && <Th className='!text-white'>Description</Th>}
             </Tr>
           </Thead>
 
-          <Tbody>
+          <Tbody className='bg-white text-gray-800'>
             {data?.map((e) => (
               <Tr key={e._id}>
                 <Td>{Number(e?.amount)}</Td>
@@ -67,7 +66,7 @@ const TablePage = ({ pageTitle, createBtnText = null, navigateUrl = '', data }) 
           </Tbody>
           {data?.length === 0 && (
             <Box>
-              <Text color="destructive">No Data Available</Text>
+              <Text color="destructive" className='text-gray-800'>No Data Available</Text>
             </Box>
           )}
         </Table>

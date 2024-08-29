@@ -233,24 +233,23 @@ const Leads = () => {
               {(isCreateAllowed ||
                 user?.roles?.name === 'admin' ||
                 user?.roles?.name === 'marketing') && (
-                <Button onClick={() => navigate('add')} bg="brand.secondary" color="brand.text">
+                <Button onClick={() => navigate('add')} color="brand.text"  className='!bg-blue-700 !px-8'>
                   Add Brand
                 </Button>
               )}
-              <Button onClick={refresh} bg="brand.secondary" color="brand.text">
+              <Button onClick={refresh} color="brand.text"  className='!bg-blue-700'>
                 <RefreshCw />
               </Button>
             </Flex>
           </Flex>
 
-          <Table colorScheme="blue" variant="simple" bg="brand.primary">
-            <Thead>
+          <Table colorScheme="blue" variant="simple" bg="brand.primary" className='rounded-md overflow-hidden'>
+            <Thead className='rounded-md bg-blue-700'>
               <Tr
                 borderTopLeftRadius="10px"
                 py="10px"
                 fontWeight="600"
                 fontSize="16px"
-                bg="brand.secondary"
               >
                 <Th color="brand.text">Logo</Th>
                 <Th color="brand.text">Name</Th>
@@ -259,7 +258,7 @@ const Leads = () => {
                 <Th color="brand.text"></Th>
               </Tr>
             </Thead>
-            <Tbody>
+            <Tbody className='bg-white text-gray-800'>
               {brands?.map((e, i) => (
                 <Tr h={20} key={i} style={{ cursor: 'pointer' }}>
                   <Td>
@@ -312,6 +311,7 @@ const Leads = () => {
                     fontWeight="600"
                     variant="outline"
                     border="2px solid #1b9ee4"
+                  className='!border-blue-700'
                     w="50%"
                   />
                 </Flex>
