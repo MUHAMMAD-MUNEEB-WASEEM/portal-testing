@@ -84,7 +84,7 @@ import { Link } from 'react-router-dom';
 
 const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHeaderText, link }) => {
   return (
-    <TableContainer className="component-scrollbar h-[60vh] md:h-[46vh] lg:h-[44vh] xl:h-[40vh] bg-white !overflow-y-scroll rounded-md">
+    <TableContainer className="component-scrollbar max-h-96 bg-white !overflow-y-scroll rounded-md">
       <div className="flex justify-between gap-4 p-4">
         <div>
           {/* <Heading as="h4" className="!text-md !text-black">

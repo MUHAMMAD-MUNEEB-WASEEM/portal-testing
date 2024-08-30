@@ -210,7 +210,7 @@ const HomePage = () => {
 
       <section className="w-full mx-auto">
         <h1 className="text-black text-3xl font-bold mb-6">Transaction</h1>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="md:col-span-2">
             {!loading ? (
               <>
@@ -239,8 +239,8 @@ const HomePage = () => {
           </div>
 
           <aside className="text-white">
-            <div className="md:h-[46vh] lg:h-[44vh] xl:h-[40vh] overflow-y-scroll w-full">
-              <div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
+            <div className="lg:overflow-y-scroll xl:overflow-hidden w-full">
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 lg:max-h-96 xl:max-h-auto">
                 <CustomPlainCard
                   bg={'bg-blue-500'}
                   icon={icon1}
