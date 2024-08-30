@@ -110,130 +110,14 @@ import icon1 from '../../../images/icon-1.png'
 import icon2 from '../../../images/icon-2.png'
 import icon3 from '../../../images/icon-3.png'
 import icon4 from '../../../images/icon-4.png'
-import DashboardHeading from '../../../components/DashboardHeading/index.jsx';
 import Loading from '../../../components/Loader/index.jsx';
+import ClientTable from '../../../components/ClientTable/ClientTable.js';
+
 // this all static data for table and all data from api should be in this format
-
 const tableHeaderText = ['email', 'date', 'amount', 'project/job', 'action']; // this is table static heading
-const tableData = [
-  {
-    client: 'neymar jr',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'job',
-    status: 'complete',
-  },
-  {
-    client: 'CR7',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'job',
-    status: 'failed',
-  },
-  {
-    client: 'mbappe ',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-]; // this is table static data
-
 // second table
 const tableHeaderTextSec = ['client name', 'date joining', 'email', 'count']; // this is table static heading
-// const tableDataSec = [
-//   {
-//     client: 'neymar jr',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'CR7',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'mbappe ',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-// ]; // this is table static data
+
 
 const HomePage = () => {
   const location = useLocation();
@@ -241,8 +125,15 @@ const HomePage = () => {
   const { error, loading, apiCall } = useApi();
   const { users, dispatch } = useInvoiceContext();
   const [invoice, setInvoice] = useState(null);
+  const [client, setClient] = useState(null);
 
   const [filters, setFilters] = useState({
+    page: 1,
+    sort: '',
+    limit: 10,
+    search: '',
+  });
+  const [filterClient, setClientFilter] = useState({
     page: 1,
     sort: '',
     limit: 10,
@@ -255,15 +146,16 @@ const HomePage = () => {
     }
   }, []);
 
+
   useEffect(() => {
     (async () => {
       try {
         // Define the API calls
-        const userApiCall = apiCall('/api/v1/admin/user');
-        const invoiceApiCall = get('admin/invoice', filters);
+        const clientApiCall = get(user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/client' : 'clients', filterClient);
+        const invoiceApiCall = get(user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/invoice' : 'invoices', filters);
 
         // Execute both API calls concurrently
-        const [userResponse, invoiceResponse] = await Promise.all([userApiCall, invoiceApiCall]);
+        const [clientResponse, invoiceResponse] = await Promise.all([clientApiCall, invoiceApiCall]);
 
         const invoiceDate = invoiceResponse.data.map((v) => {
           return {
@@ -276,31 +168,13 @@ const HomePage = () => {
           };
         })
         setInvoice(invoiceDate);
-
-        if (userResponse) {
-          dispatch({
-            type: 'GET_USERS',
-            payload: userResponse?.data,
-          });
-        }
+        setClient(clientResponse);
       } catch (error) {
         console.log('Fetch Error', error);
       }
     })();
   }, [user]);
 
-  // sort data for user table
-  const userTableData =
-    users?.length &&
-    users?.map((elem) => {
-      return {
-        client: elem.name,
-        date: new Date(elem.createdAt).toDateString(),
-        email: elem.email,
-        amount: elem.pkNumber,
-      };
-    });
-    
   return (
     <VStack spacing="6" align="stretch" p="4">
       <Flex mb={6} justifyContent="space-between" alignItems="end">
@@ -353,7 +227,7 @@ const HomePage = () => {
             ) : (
               <>
                 <Flex
-                className='h-full'
+                  className='h-full'
                   display={'flex'}
                   alignItems="center"
                   justifyContent={'center'}
@@ -415,12 +289,16 @@ const HomePage = () => {
       </section>
 
       <h1 className="text-black text-3xl font-bold">Client</h1>
-      <CustomTableContainer
-        // tableHeading={'Users'}
-        tableHeaderText={tableHeaderTextSec}
-        tableData={userTableData}
-        link={'/dashboard/clients'}
-      />
+      {
+        client && (
+          <ClientTable
+            tableHeading={'Users'}
+            tableHeaderText={tableHeaderTextSec}
+            tableData={client?.data}
+            link={'/dashboard/clients'}
+          />
+        )
+      }
     </VStack>
   );
 };

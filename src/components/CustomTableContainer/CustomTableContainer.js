@@ -8,10 +8,8 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Heading,
-  Text,
 } from '@chakra-ui/react';
 import TableNavigationMenu from './TableNavigationMenu';
 import { Link } from 'react-router-dom';
@@ -121,7 +119,6 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
       </div>
 
       <Table variant="simple" size="sm">
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
         <Thead>
           <Tr>
             {tableHeaderText.map((item, index) => (
@@ -168,15 +165,6 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
             return rows;
           })()}
         </Tbody>
-        <Tfoot>
-          {/* <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th>into</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr> */}
-        </Tfoot>
       </Table>
     </TableContainer>
   );
