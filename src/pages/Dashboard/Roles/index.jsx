@@ -38,7 +38,7 @@ const Roles = () => {
     <VStack spacing="6" align="stretch" p="4">
       <Flex justifyContent="space-between" alignItems="center">
         <DashboardHeading>Roles</DashboardHeading>
-        <Button bg="brand.secondary" color="brand.text" onClick={() => navigate('add')}>
+        <Button color="brand.text" onClick={() => navigate('add')} className='!bg-blue-700 !px-8'>
           Add New Role
         </Button>
       </Flex>

@@ -69,7 +69,7 @@ const CustomDrawer = () => {
       <Menu size="xs">
         {routes.map((v, i) => (
           <MenuItem
-          key={i}
+            key={i}
             backgroundColor={'transparent'}
             height={'4vh'}
             className="text-md !text-white font-bold tracking-wider hover:ms-12 ms-8 !transition-all"
@@ -79,7 +79,7 @@ const CustomDrawer = () => {
             </NavLink>
           </MenuItem>
         ))}
-        
+
       </Menu>
     </Box>
   );
@@ -104,4 +104,4 @@ function MobileDrawer({ isOpen, onOpen, onClose }) {
   );
 }
 
-export {MobileDrawer}
+export { MobileDrawer }

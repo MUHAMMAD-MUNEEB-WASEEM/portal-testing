@@ -94,11 +94,11 @@ const Leads = () => {
               />
 
               {isCreateAllowed && user?.isHead && (
-                <Button onClick={() => navigate('add')} bg="brand.secondary" color="brand.text">
+                <Button onClick={() => navigate('add')} color="brand.text" className='!bg-blue-700 !px-8'>
                   Add Lead
                 </Button>
               )}
-              <Button onClick={refresh} bg="brand.secondary" color="brand.text" className='!bg-blue-700 !text-white'>
+              <Button onClick={refresh} color="brand.text" className='!bg-blue-700'>
                 <RefreshCw />
               </Button>
             </Flex>

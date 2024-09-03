@@ -8,10 +8,8 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Heading,
-  Text,
 } from '@chakra-ui/react';
 import TableNavigationMenu from './TableNavigationMenu';
 import { Link } from 'react-router-dom';
@@ -86,12 +84,12 @@ import { Link } from 'react-router-dom';
 
 const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHeaderText, link }) => {
   return (
-    <TableContainer className="component-scrollbar h-[60vh] md:h-[46vh] lg:h-[44vh] xl:h-[40vh] bg-white !overflow-y-scroll rounded-md">
+    <TableContainer className="component-scrollbar max-h-96 bg-white !overflow-y-scroll rounded-md">
       <div className="flex justify-between gap-4 p-4">
         <div>
-          <Heading as="h4" className="!text-md !text-black">
+          {/* <Heading as="h4" className="!text-md !text-black">
             {tableHeading || 'Table heading'}
-          </Heading>
+          </Heading> */}
         </div>
 
         <div className="flex">
@@ -121,7 +119,6 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
       </div>
 
       <Table variant="simple" size="sm">
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
         <Thead>
           <Tr>
             {tableHeaderText.map((item, index) => (
@@ -168,15 +165,6 @@ const CustomTableContainer = ({ menu = false, tableHeading, tableData, tableHead
             return rows;
           })()}
         </Tbody>
-        <Tfoot>
-          {/* <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th>into</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr> */}
-        </Tfoot>
       </Table>
     </TableContainer>
   );

@@ -96,7 +96,7 @@ import styles from './HomePage.module.css';
 // import outcome from '../../../images/outcome.png';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { Flex, VStack } from '@chakra-ui/react';
+import { Flex, Heading, Spinner, VStack } from '@chakra-ui/react';
 import CustomViewCard from '../../../components/CustomViewCard/CustomViewCard';
 import InfoCard from '../../../components/InfoCard/InfoCard';
 import CustomTableContainer from '../../../components/CustomTableContainer/CustomTableContainer.js';
@@ -110,128 +110,14 @@ import icon1 from '../../../images/icon-1.png'
 import icon2 from '../../../images/icon-2.png'
 import icon3 from '../../../images/icon-3.png'
 import icon4 from '../../../images/icon-4.png'
+import Loading from '../../../components/Loader/index.jsx';
+import ClientTable from '../../../components/ClientTable/ClientTable.js';
+
 // this all static data for table and all data from api should be in this format
-
 const tableHeaderText = ['email', 'date', 'amount', 'project/job', 'action']; // this is table static heading
-const tableData = [
-  {
-    client: 'neymar jr',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'job',
-    status: 'complete',
-  },
-  {
-    client: 'CR7',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'job',
-    status: 'failed',
-  },
-  {
-    client: 'mbappe ',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-  {
-    client: 'jhon smith',
-    date: 'DD MM YYYY',
-    email: 'example@gmail.com',
-    amount: '$ 400',
-    project: 'project',
-    status: 'pending',
-  },
-]; // this is table static data
-
 // second table
 const tableHeaderTextSec = ['client name', 'date joining', 'email', 'count']; // this is table static heading
-// const tableDataSec = [
-//   {
-//     client: 'neymar jr',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'CR7',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'mbappe ',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-//   {
-//     client: 'jhon smith',
-//     date: 'DD MM YYYY',
-//     email: 'example@gmail.com',
-//     amount: '+923252105103',
-//   },
-// ]; // this is table static data
+
 
 const HomePage = () => {
   const location = useLocation();
@@ -239,8 +125,15 @@ const HomePage = () => {
   const { error, loading, apiCall } = useApi();
   const { users, dispatch } = useInvoiceContext();
   const [invoice, setInvoice] = useState(null);
+  const [client, setClient] = useState(null);
 
   const [filters, setFilters] = useState({
+    page: 1,
+    sort: '',
+    limit: 10,
+    search: '',
+  });
+  const [filterClient, setClientFilter] = useState({
     page: 1,
     sort: '',
     limit: 10,
@@ -253,17 +146,17 @@ const HomePage = () => {
     }
   }, []);
 
+
   useEffect(() => {
     (async () => {
       try {
         // Define the API calls
-        const userApiCall = apiCall('/api/v1/admin/user');
-        const invoiceApiCall = get('admin/invoice', filters);
+        const clientApiCall = get(user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/client' : 'clients', filterClient);
+        const invoiceApiCall = get(user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/invoice' : 'invoices', filters);
 
         // Execute both API calls concurrently
-        const [userResponse, invoiceResponse] = await Promise.all([userApiCall, invoiceApiCall]);
+        const [clientResponse, invoiceResponse] = await Promise.all([clientApiCall, invoiceApiCall]);
 
-        
         const invoiceDate = invoiceResponse.data.map((v) => {
           return {
             client: v.clientEmail,
@@ -275,30 +168,12 @@ const HomePage = () => {
           };
         })
         setInvoice(invoiceDate);
-
-        if (userResponse) {
-          dispatch({
-            type: 'GET_USERS',
-            payload: userResponse?.data,
-          });
-        }
+        setClient(clientResponse);
       } catch (error) {
         console.log('Fetch Error', error);
       }
     })();
   }, [user]);
-
-  // sort data for user table
-  const userTableData =
-    users?.length &&
-    users?.map((elem) => {
-      return {
-        client: elem.name,
-        date: new Date(elem.createdAt).toDateString(),
-        email: elem.email,
-        amount: elem.pkNumber,
-      };
-    });
 
   return (
     <VStack spacing="6" align="stretch" p="4">
@@ -334,20 +209,38 @@ const HomePage = () => {
       </section>
 
       <section className="w-full mx-auto">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <h1 className="text-black text-3xl font-bold mb-6">Transaction</h1>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="md:col-span-2">
-            {invoice?.length && (<CustomTableContainer
-              menu={true}
-              tableHeading={'Previous Transaction'}
-              tableHeaderText={tableHeaderText}
-              tableData={invoice}
-              link={'/dashboard/invoices'}
-            />)}
+            {!loading ? (
+              <>
+                {
+                  invoice?.length && (<CustomTableContainer
+                    menu={true}
+                    // tableHeading={'Previous Transaction'}
+                    tableHeaderText={tableHeaderText}
+                    tableData={invoice}
+                    link={'/dashboard/invoices'}
+                  />
+                  )}
+              </>
+            ) : (
+              <>
+                <Flex
+                  className='h-full'
+                  display={'flex'}
+                  alignItems="center"
+                  justifyContent={'center'}
+                >
+                  <Spinner thickness="10px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+                </Flex>
+              </>
+            )}
           </div>
 
           <aside className="text-white">
-            <div className="md:h-[46vh] lg:h-[44vh] xl:h-[40vh] overflow-y-scroll w-full">
-              <div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
+            <div className="lg:overflow-y-scroll xl:overflow-hidden w-full">
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 lg:max-h-96 xl:max-h-auto">
                 <CustomPlainCard
                   bg={'bg-blue-500'}
                   icon={icon1}
@@ -377,32 +270,35 @@ const HomePage = () => {
           </aside>
         </div>
       </section>
-      <section className="container w-full mx-auto grid gap-4 grid-cols-1 md:grid-cols-2 mt-4">
-        <div className="container w-full mx-auto grid gap-4 grid-cols-2">
-          <InfoCard
-            title={'charge back'}
-            amount={'200,000'}
-            number={'2'}
-            type="danger"
-            icon={<TbCurrencyDollarOff size={32} />}
-          />
+      <h1 className="text-black text-3xl font-bold">Charge/Refund</h1>
+      <section className="w-full mx-auto grid grid-cols-2 gap-4">
+        <InfoCard
+          title={'charge back'}
+          amount={'200,000'}
+          number={'2'}
+          type="danger"
+          icon={<TbCurrencyDollarOff size={32} />}
+        />
 
-          <InfoCard
-            title={'refund'}
-            amount={'200,000'}
-            type="warning"
-            icon={<TbAdjustmentsDollar size={32} />}
-          />
-        </div>
-        <div>
-          <CustomTableContainer
+        <InfoCard
+          title={'refund'}
+          amount={'200,000'}
+          type="warning"
+          icon={<TbAdjustmentsDollar size={32} />}
+        />
+      </section>
+
+      <h1 className="text-black text-3xl font-bold">Client</h1>
+      {
+        client && (
+          <ClientTable
             tableHeading={'Users'}
             tableHeaderText={tableHeaderTextSec}
-            tableData={userTableData}
+            tableData={client?.data}
             link={'/dashboard/clients'}
           />
-        </div>
-      </section>
+        )
+      }
     </VStack>
   );
 };
