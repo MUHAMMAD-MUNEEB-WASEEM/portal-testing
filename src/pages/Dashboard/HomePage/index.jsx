@@ -106,10 +106,10 @@ import { useInvoiceContext } from '../../../hooks/useInvoiceContext.js';
 import { useAuthContext } from '../../../hooks/useAuthContext.js';
 import useApi from '../../../hooks/useApi.js';
 import { get } from '../../../utils/fetch.js';
-import icon1 from '../../../images/icon-1.png'
-import icon2 from '../../../images/icon-2.png'
-import icon3 from '../../../images/icon-3.png'
-import icon4 from '../../../images/icon-4.png'
+import icon1 from '../../../images/icon-1.png';
+import icon2 from '../../../images/icon-2.png';
+import icon3 from '../../../images/icon-3.png';
+import icon4 from '../../../images/icon-4.png';
 import Loading from '../../../components/Loader/index.jsx';
 import ClientTable from '../../../components/ClientTable/ClientTable.js';
 
@@ -118,13 +118,13 @@ const tableHeaderText = ['email', 'date', 'amount', 'project/job', 'action']; //
 // second table
 const tableHeaderTextSec = ['client name', 'date joining', 'email', 'count']; // this is table static heading
 
-
 const HomePage = () => {
   const location = useLocation();
   const { user } = useAuthContext();
   const { error, loading, apiCall } = useApi();
   const { users, dispatch } = useInvoiceContext();
   const [invoice, setInvoice] = useState(null);
+  const [invoiceResponse, setInvoiceResponse] = useState(null);
   const [client, setClient] = useState(null);
 
   const [filters, setFilters] = useState({
@@ -146,16 +146,28 @@ const HomePage = () => {
     }
   }, []);
 
-
   useEffect(() => {
     (async () => {
       try {
         // Define the API calls
-        const clientApiCall = get(user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/client' : 'clients', filterClient);
-        const invoiceApiCall = get(user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/invoice' : 'invoices', filters);
+        const clientApiCall = get(
+          user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/client' : 'clients',
+          filterClient,
+        );
+        const invoiceApiCall = get(
+          user?.data?.role.trim().toLowerCase() === 'admin' ? 'admin/invoice' : 'invoices',
+          filters,
+        );
 
         // Execute both API calls concurrently
-        const [clientResponse, invoiceResponse] = await Promise.all([clientApiCall, invoiceApiCall]);
+        const [clientResponse, invoiceResponse] = await Promise.all([
+          clientApiCall,
+          invoiceApiCall,
+        ]);
+
+        if (invoiceResponse) {
+          setInvoiceResponse(invoiceResponse);
+        }
 
         const invoiceDate = invoiceResponse.data.map((v) => {
           return {
@@ -166,7 +178,7 @@ const HomePage = () => {
             project: v.status,
             // status: v.status,
           };
-        })
+        });
         setInvoice(invoiceDate);
         setClient(clientResponse);
       } catch (error) {
@@ -184,26 +196,26 @@ const HomePage = () => {
       <section className="w-full mx-auto grid gap-4 xs:grid-cols-1 sm:grid-cols-4 md:grid-cols-3">
         <div className="sm:col-span-2 md:col-span-1">
           <CustomViewCard
-            headText={'total volume'}
+            headText={'Total Invoices'}
             menuItems={['fist item', 'second item', 'third item']}
             percentage={'+200'}
-            amount={'8025345.4232'}
+            amount={invoiceResponse?.totalVolume}
           />
         </div>
         <div className="sm:col-span-2 md:col-span-1">
           <CustomViewCard
-            headText={'total transaction'}
+            headText={'Total Invoices Paid'}
             menuItems={['2.fist item', '2.second item', '2.third item']}
             percentage={'-2.48'}
-            amount={'500'}
+            amount={invoiceResponse?.paidVolume}
           />
         </div>
         <div className="sm:col-span-4 md:col-span-1">
           <CustomViewCard
-            headText={'payable amount'}
+            headText={'Total Invoices Unpaid'}
             menuItems={['3.fist item', '3.second item', '3.third item']}
             percentage={'+200'}
-            amount={'504232.545'}
+            amount={invoiceResponse?.unpaidVolume}
           />
         </div>
       </section>
@@ -214,25 +226,31 @@ const HomePage = () => {
           <div className="md:col-span-2">
             {!loading ? (
               <>
-                {
-                  invoice?.length && (<CustomTableContainer
+                {invoice?.length && (
+                  <CustomTableContainer
                     menu={true}
                     // tableHeading={'Previous Transaction'}
                     tableHeaderText={tableHeaderText}
                     tableData={invoice}
                     link={'/dashboard/invoices'}
                   />
-                  )}
+                )}
               </>
             ) : (
               <>
                 <Flex
-                  className='h-full'
+                  className="h-full"
                   display={'flex'}
                   alignItems="center"
                   justifyContent={'center'}
                 >
-                  <Spinner thickness="10px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+                  <Spinner
+                    thickness="10px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
                 </Flex>
               </>
             )}
@@ -244,26 +262,26 @@ const HomePage = () => {
                 <CustomPlainCard
                   bg={'bg-blue-500'}
                   icon={icon1}
-                  heading={'1245'}
+                  heading={invoiceResponse?.totalInvoices}
                   text={'Total invoices'}
                 />
                 <CustomPlainCard
                   bg={'bg-yellow-500'}
                   icon={icon2}
-                  heading={'1245'}
+                  heading={invoiceResponse?.paidInvoices}
                   text={'paid invoices'}
                 />
                 <CustomPlainCard
                   bg={'bg-cyan-500'}
                   icon={icon3}
-                  heading={'1245'}
+                  heading={invoiceResponse?.unpaidInvoices}
                   text={'unpaid invoices'}
                 />
                 <CustomPlainCard
                   bg={'bg-red-500'}
                   icon={icon4}
-                  heading={'1245'}
-                  text={'Total invoices sent'}
+                  heading={invoiceResponse?.unpaidInvoices}
+                  text={'invoices sent'}
                 />
               </div>
             </div>
@@ -289,16 +307,14 @@ const HomePage = () => {
       </section>
 
       <h1 className="text-black text-3xl font-bold">Client</h1>
-      {
-        client && (
-          <ClientTable
-            tableHeading={'Users'}
-            tableHeaderText={tableHeaderTextSec}
-            tableData={client?.data}
-            link={'/dashboard/clients'}
-          />
-        )
-      }
+      {client && (
+        <ClientTable
+          tableHeading={'Users'}
+          tableHeaderText={tableHeaderTextSec}
+          tableData={client?.data}
+          link={'/dashboard/clients'}
+        />
+      )}
     </VStack>
   );
 };
