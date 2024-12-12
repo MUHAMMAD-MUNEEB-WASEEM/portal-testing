@@ -248,7 +248,7 @@ const InvoiceForm = () => {
                 {client?.merchant?.name == 'PA-DC'
                   ? 'Max amount is $3000'
                   : client?.merchant?.name == 'MA-ZP'
-                    ? 'Max amount is $1000'
+                    ? 'Max amount is $2500'
                     : ''}
               </Text>
             </FormControl>
