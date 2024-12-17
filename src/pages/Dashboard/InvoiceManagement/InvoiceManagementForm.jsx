@@ -217,7 +217,7 @@ const InvoiceForm = () => {
                 isDisabled={
                   invoice.merchant === 'PA-DC' && invoice.subTotal > 3000
                     ? true
-                    : invoice.merchant === 'MA-ZP' && invoice.subTotal > 2501
+                    : invoice.merchant === 'MA-ZP' && invoice.subTotal > 2500
                       ? true
                       : false
                 }
