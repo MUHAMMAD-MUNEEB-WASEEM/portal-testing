@@ -3,7 +3,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useState } from 'react';
 import { useLogout } from '../../hooks/useLogout';
 import { Box, Button, Flex, Image, ListItem, UnorderedList } from '@chakra-ui/react';
-import { InvizLogo } from '../../images';
+import { InvizLogo, PaktechLogo } from '../../images';
 
 const Navbar = () => {
   const { user, dispatch } = useAuthContext();
@@ -28,7 +28,7 @@ const Navbar = () => {
       >
         <Box w="150px">
           <Link to="/">
-            <Image src={InvizLogo} alt="logo" />
+            <Image src={PaktechLogo} alt="logo" />
           </Link>
         </Box>
 
@@ -53,4 +53,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

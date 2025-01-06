@@ -5,7 +5,7 @@ import classes from './LandingPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { Box, Button, useColorMode, useDisclosure } from '@chakra-ui/react';
-import { InvizLogo } from '../../images';
+import { InvizLogo, PaktechLogo } from '../../images';
 import { useEffect } from 'react';
 import CustomPlainCard from '../../components/CustomPlainCard/CustomPlainCard';
 import CustomViewCard from '../../components/CustomViewCard/CustomViewCard';
@@ -13,7 +13,6 @@ import InfoCard from '../../components/InfoCard/InfoCard';
 import { TbAdjustmentsDollar, TbCurrencyDollarOff } from 'react-icons/tb';
 import Header from '../../components/Header/Header';
 import Drawer, { MobileDrawer } from '../../components/CustomDrawer/Drawer';
-
 
 const tableHeaderText = ['client', 'date', 'email', 'amount', 'project/job', 'action']; // this is table static heading
 const tableData = [
@@ -273,9 +272,9 @@ const Landingpage = () => {
 
       {/* className={classes.footer} for fix layout css className="grid grid-cols-1 md:grid-cols-3" */}
       <footer className={classes.footerSection}>
-        <div className={classes.footer} >
+        <div className={classes.footer}>
           <div className={classes.first}>
-            <img src={InvizLogo} alt="" />
+            <img src={PaktechLogo} alt="" />
             <div className={classes.firstInner}>
               <span>hello@torrelalexis.com</span>
               <span>Contact Form</span>
