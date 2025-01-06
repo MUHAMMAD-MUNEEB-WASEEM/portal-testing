@@ -276,7 +276,7 @@ const Landingpage = () => {
           <div className={classes.first}>
             <img src={PaktechLogo} alt="" />
             <div className={classes.firstInner}>
-              <span>hello@inviztechnologies.net</span>
+              <span>hello@torrelalexis.com</span>
               <span>Contact Form</span>
 
               <div>
