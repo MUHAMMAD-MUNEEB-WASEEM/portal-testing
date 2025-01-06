@@ -249,7 +249,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { RiDashboardHorizontalLine } from 'react-icons/ri';
 import { useLogout } from '../../../hooks/useLogout';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import logo from './../../../images/icon.png'
+import logo from './../../../images/Paktech_Logo.png';
 
 const links = [
   {
@@ -406,36 +406,32 @@ const CustomDrawer = () => {
     navigate('/login');
   };
   return (
-      <Box className="w-full h-[100vh] bg-blue-700 rounded-tr-[2.5rem] rounded-br-[2.5rem] overflow-hidden">
-        <Box boxSize="xs" className="ms-[-32px] flex !h-52  justify-center items-center">
-          <Image
-            src={logo}
-            alt="dashboard icon"
-            className="w-24"
-          />
-        </Box>
-        <Menu size="xs" isLazy >
-          {filteredLinks.map((v, i) => (
-            <MenuItem
-              backgroundColor={'transparent'}
-              height={'4vh'}
-              className="text-md font-semibold tracking-wider my-3"
-            >
-              <NavLink
-                key={i}
-                to={v.path}
-                className={({ isActive }) =>
-                  `w-full flex items-center gap-4 ps-4 py-2 capitalize text-white hover:translate-x-6  transition-all ${
-                    isActive ? '!bg-[#6082db] rounded-l-3xl !translate-x-12' : ''
-                  }`
-                }
-              >
-                {v.icon()} {v.id}
-              </NavLink>
-            </MenuItem>
-          ))}
-        </Menu>
+    <Box className="w-full h-[100vh] bg-blue-700 rounded-tr-[2.5rem] rounded-br-[2.5rem] overflow-hidden">
+      <Box boxSize="xs" className="ms-[-32px] flex !h-52  justify-center items-center">
+        <Image src={logo} alt="dashboard icon" className="w-24" />
       </Box>
+      <Menu size="xs" isLazy>
+        {filteredLinks.map((v, i) => (
+          <MenuItem
+            backgroundColor={'transparent'}
+            height={'4vh'}
+            className="text-md font-semibold tracking-wider my-3"
+          >
+            <NavLink
+              key={i}
+              to={v.path}
+              className={({ isActive }) =>
+                `w-full flex items-center gap-4 ps-4 py-2 capitalize text-white hover:translate-x-6  transition-all ${
+                  isActive ? '!bg-[#6082db] rounded-l-3xl !translate-x-12' : ''
+                }`
+              }
+            >
+              {v.icon()} {v.id}
+            </NavLink>
+          </MenuItem>
+        ))}
+      </Menu>
+    </Box>
   );
 };
 
